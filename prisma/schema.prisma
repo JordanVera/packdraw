@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// model User {
+//   id    String  @id @default(cuid())
+//   email String  @unique
+//   name  String?
+// }
+
+// ... (previous code remains unchanged)
+
+model Pack {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  coverImage  String?
+  items       Item[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ... (Item model remains unchanged)
+
+model Item {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  rarity      Float
+  pack        Pack     @relation(fields: [packId], references: [id])
+  packId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
