@@ -6,7 +6,19 @@ const NewPacks = () => {
 
   console.log(allPacks);
 
-  return <div>NewPacks</div>;
+  return (
+    <div>
+      <h2>New Packs</h2>
+      <div className="flex flex-wrap gap-4">
+        {allPacks.map((pack) => (
+          <div key={pack.id}>
+            <img src={pack.coverImage} alt={pack.name} className="h-52" />
+            <h4 className="text-xl font-bold text-center">${pack.price}</h4>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default NewPacks;
