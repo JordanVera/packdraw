@@ -13,8 +13,6 @@ datasource db {
 //   name  String?
 // }
 
-// ... (previous code remains unchanged)
-
 model Pack {
   id          String   @id @default(cuid())
   name        String
@@ -25,8 +23,6 @@ model Pack {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
-
-// ... (Item model remains unchanged)
 
 model Item {
   id          String   @id @default(cuid())
