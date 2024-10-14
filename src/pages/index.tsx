@@ -6,9 +6,7 @@ import { usePacks } from '@/providers/UserProvider';
 export default function Home() {
   return (
     <div>
-      <main className="max-w-screen-lg mx-auto m-10 border border-red-600">
-        <h1>Hello World</h1>
-
+      <main className="max-w-screen-xl mx-auto m-10">
         <NewPacks />
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
