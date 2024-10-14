@@ -8,14 +8,14 @@ const NewPacks = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold mb-5">New Packs</h2>
+      <div className="flex justify-between items-center mb-5">
+        <h2 className="text-xl font-bold">New Packs</h2>
         <button className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600">
           View All
         </button>
       </div>
       <div className="flex flex-wrap gap-4">
-        {allPacks.map((pack) => (
+        {[...allPacks, ...allPacks].slice(0, 5).map((pack) => (
           <div key={pack.id} className="flex flex-col gap-5">
             <img
               src={pack.coverImage}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PackageOpen, Swords } from 'lucide-react';
+import { PackageOpen, Swords, Copy } from 'lucide-react';
 
 const Navbar = () => {
   return (
@@ -8,15 +8,15 @@ const Navbar = () => {
         {/* <img src="/logo.svg" alt="logo" /> */}
 
         <button className="flex items-center gap-2">
-          <img src="/icon.svg" alt="logo" />
+          <Copy fill="white" />
           <h3 className="text-lg font-bold">Pack Draw</h3>
         </button>
         <button className="flex items-center gap-2">
-          <PackageOpen />
+          <PackageOpen fill="white" />
           <h3 className="text-sm font-semibold">Packs</h3>
         </button>
         <button className="flex items-center gap-2">
-          <Swords />
+          <Swords fill="white" />
           <h3 className="text-sm font-semibold">Battles</h3>
         </button>
       </div>
