@@ -9,13 +9,13 @@ const NewPacks = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold mb-5">New Packs</h2>
+        <h2 className="text-xl font-bold mb-5">New Packs</h2>
         <button className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600">
           View All
         </button>
       </div>
       <div className="flex flex-wrap gap-4">
-        {[...allPacks, ...allPacks].map((pack) => (
+        {allPacks.map((pack) => (
           <div key={pack.id} className="flex flex-col gap-5">
             <img
               src={pack.coverImage}
