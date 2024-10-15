@@ -55,8 +55,10 @@ export default function PackPage() {
 
         <PackReel
           items={pack.items}
+          onOpen={(item) =>
+            console.log(`Won item: ${item.name}, Rarity: ${item.rarity}%`)
+          }
           packPrice={pack.price}
-          onOpen={(item) => console.log(`Won item: ${item.name}`)}
         />
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
