@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import PackService from '@/services/PackService';
 import ButtonBar from '@/components/ButtonBar';
+import PackReel from '@/components/PackReel';
 
 export default function PackPage() {
   const router = useRouter();
@@ -30,30 +31,58 @@ export default function PackPage() {
 
   if (loading) {
     return (
-      <div>
+      <div className="flex justify-center items-center h-screen text-white bg-zinc-900">
         Loading...
-        <h2>WHASHDSADAD</h2>
       </div>
     );
   }
-  // if (!pack) return <div>Pack not found</div>;
+
+  if (!pack)
+    return (
+      <div className="flex justify-center items-center h-screen text-white ">
+        Pack not found
+      </div>
+    );
 
   return (
-    <div className="max-w-screen-xl mx-auto">
+    <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8  text-white min-h-screen">
       <ButtonBar pack={pack} />
 
       <div className="flex flex-col gap-5 my-10">
-        <h1 className="text-lg font-bold">
-          {pack?.name} - ${pack?.price}
+        <h1 className="text-xl font-bold">
+          {pack.name} - ${pack.price}
         </h1>
 
-        <div className="flex flex-wrap gap-5">
-          {pack?.items.map((item: any) => (
-            <div key={item.id} className="flex flex-col gap-2">
-              <p>{item.rarity}</p>
-              <img src={item.image} alt={item.name} className="w-20 h-20" />
-              <h3 className="text-sm font-bold truncate">{item.name}</h3>
-              <p className="text-sm text-zinc-400">${item.value}</p>
+        <PackReel
+          items={pack.items}
+          packPrice={pack.price}
+          onOpen={(item) => console.log(`Won item: ${item.name}`)}
+        />
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
+          {pack.items.map((item: any) => (
+            <div
+              key={item.id}
+              className="aspect-square bg-zinc-800 rounded-lg shadow-md p-4 flex flex-col justify-between"
+            >
+              <p className="text-xs font-semibold text-gray-400 text-center">
+                {item.rarity}
+              </p>
+              <div className="flex-grow flex items-center justify-center">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="h-20 w-20 max-w-full max-h-full object-contain rounded-md"
+                />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold truncate text-center">
+                  {item.name}
+                </h3>
+                <p className="text-sm text-zinc-400 text-center">
+                  ${item.value}
+                </p>
+              </div>
             </div>
           ))}
         </div>
