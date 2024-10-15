@@ -28,19 +28,36 @@ export default function PackPage() {
     }
   }, [id]);
 
-  if (loading)
+  if (loading) {
     return (
       <div>
         Loading...
         <h2>WHASHDSADAD</h2>
       </div>
     );
+  }
   // if (!pack) return <div>Pack not found</div>;
 
   return (
-    <div className="max-w-screen-xl">
-      <h1>{pack.title}</h1>
+    <div className="max-w-screen-xl mx-auto">
       <ButtonBar pack={pack} />
+
+      <div className="flex flex-col gap-5 my-10">
+        <h1 className="text-lg font-bold">
+          {pack?.name} - ${pack?.price}
+        </h1>
+
+        <div className="flex flex-wrap gap-5">
+          {pack?.items.map((item: any) => (
+            <div key={item.id} className="flex flex-col gap-2">
+              <p>{item.rarity}</p>
+              <img src={item.image} alt={item.name} className="w-20 h-20" />
+              <h3 className="text-sm font-bold truncate">{item.name}</h3>
+              <p className="text-sm text-zinc-400">${item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

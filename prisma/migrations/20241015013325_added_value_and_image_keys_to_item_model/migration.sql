@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `Item` ADD COLUMN `image` VARCHAR(191) NULL,
+    ADD COLUMN `value` DOUBLE NOT NULL DEFAULT 0;
