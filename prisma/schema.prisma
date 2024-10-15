@@ -14,25 +14,34 @@ datasource db {
 // }
 
 model Pack {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String?
   price       Float
   coverImage  String?
-  items       Item[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  items       PackItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Item {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
-  description String?
-  rarity      Float
-  pack        Pack     @relation(fields: [packId], references: [id])
-  packId      String
-  value       Float    @default(0)
+  description String?    @db.LongText()
+  // rarity      Float
+  price       Float      @default(0)
   image       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  brand       String?
+  packs       PackItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model PackItem {
+  pack   Pack   @relation(fields: [packId], references: [id])
+  packId String
+  item   Item   @relation(fields: [itemId], references: [id])
+  itemId String
+
+  @@id([packId, itemId])
 }

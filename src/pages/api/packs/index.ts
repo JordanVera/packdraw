@@ -25,19 +25,24 @@ async function createPack(req: NextApiRequest, res: NextApiResponse) {
         price,
         coverImage,
         items: {
-          create: items.map((item: any) => ({
-            name: item.name,
-            description: item.description,
-            rarity: item.rarity,
+          create: items.map((itemId: string) => ({
+            item: {
+              connect: { id: itemId },
+            },
           })),
         },
       },
       include: {
-        items: true,
+        items: {
+          include: {
+            item: true,
+          },
+        },
       },
     });
     res.status(201).json(pack);
   } catch (error) {
+    console.error('Error creating pack:', error);
     res.status(400).json({ error: 'Error creating pack' });
   }
 }
@@ -46,11 +51,16 @@ async function getAllPacks(req: NextApiRequest, res: NextApiResponse) {
   try {
     const packs = await prisma.pack.findMany({
       include: {
-        items: true,
+        items: {
+          include: {
+            item: true,
+          },
+        },
       },
     });
     res.status(200).json(packs);
   } catch (error) {
+    console.error('Error fetching packs:', error);
     res.status(400).json({ error: 'Error fetching packs' });
   }
 }

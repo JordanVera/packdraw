@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import PackService from '@/services/PackService';
 import ButtonBar from '@/components/ButtonBar';
@@ -9,6 +9,10 @@ export default function PackPage() {
   const { id } = router.query;
   const [pack, setPack] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [spinning, setSpinning] = useState(false);
+  const packReelRef = useRef<{ spinReel: (demo: boolean) => void } | null>(
+    null
+  );
 
   const fetchPackData = async (packId: string) => {
     setLoading(true);
@@ -29,6 +33,12 @@ export default function PackPage() {
     }
   }, [id]);
 
+  const handleSpinReel = (demo: boolean) => {
+    if (spinning) return;
+    setSpinning(true);
+    packReelRef.current?.spinReel(demo);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-white bg-zinc-900">
@@ -46,26 +56,32 @@ export default function PackPage() {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8  text-white min-h-screen">
-      <ButtonBar pack={pack} />
+      <div className="flex flex-col gap-10 my-10">
+        <PackReel
+          ref={packReelRef}
+          items={pack.items}
+          onOpen={(item) => {
+            console.log(`Won item: ${item.name}, Rarity: ${item.rarity}%`);
+            setSpinning(false);
+          }}
+          packPrice={pack.price}
+          spinning={spinning}
+          setSpinning={setSpinning}
+          spinReel={handleSpinReel}
+        />
+        <ButtonBar pack={pack} spinning={spinning} spinReel={handleSpinReel} />
+      </div>
 
       <div className="flex flex-col gap-5 my-10">
         <h1 className="text-xl font-bold">
           {pack.name} - ${pack.price}
         </h1>
 
-        <PackReel
-          items={pack.items}
-          onOpen={(item) =>
-            console.log(`Won item: ${item.name}, Rarity: ${item.rarity}%`)
-          }
-          packPrice={pack.price}
-        />
-
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
           {pack.items.map((item: any) => (
             <div
               key={item.id}
-              className="aspect-square bg-zinc-800 rounded-lg shadow-md p-4 flex flex-col justify-between"
+              className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between"
             >
               <p className="text-xs font-semibold text-gray-400 text-center">
                 {item.rarity}
