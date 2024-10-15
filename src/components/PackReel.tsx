@@ -61,23 +61,32 @@ export default function PackReel({ items, onOpen, packPrice }: PackReelProps) {
     const initialSpins = 4 * totalItems; // 4 full rotations
     const spinDistance =
       (initialSpins + winningIndex - centerOffset) * itemWidth;
+    const overshoot = itemWidth * 0.5; // Overshoot by half an item width
 
     api.start({
       from: { x: 0 },
-      to: { x: -spinDistance },
-      config: {
-        duration: 5000,
-        easing: (t) =>
-          t < 0.8
-            ? Math.sin((t * Math.PI) / 2) // Ease in for the first 80% of the animation
-            : 1 - Math.pow(1 - t, 5), // Ease out for the last 20%
-      },
+      to: [
+        {
+          x: -(spinDistance + overshoot),
+          config: { duration: 4000, easing: easeInOutCubic },
+        },
+        { x: -spinDistance, config: { duration: 1000, easing: easeOutBack } },
+      ],
       onRest: () => {
         setSpinning(false);
         setWinner(winningItem);
         if (!demo) onOpen(winningItem);
       },
     });
+  };
+
+  // Add these easing functions at the top of your component or in a separate utils file
+  const easeInOutCubic = (t: number) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const easeOutBack = (t: number) => {
+    const c1 = 1.70158;
+    const c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
   };
 
   useEffect(() => {
