@@ -48,6 +48,26 @@ async function updatePack(
 ) {
   try {
     const { name, description, price, coverImage, items } = req.body;
+
+    // Fetch the current pack to get existing items
+    const currentPack = await prisma.pack.findUnique({
+      where: { id },
+      include: { items: true },
+    });
+
+    if (!currentPack) {
+      return res.status(404).json({ error: 'Pack not found' });
+    }
+
+    // Prepare the items update
+    const currentItemIds = currentPack.items.map((pi) => pi.itemId);
+    const newItemIds = items.map((item: any) => item.id);
+
+    const itemsToAdd = newItemIds.filter((id) => !currentItemIds.includes(id));
+    const itemsToRemove = currentItemIds.filter(
+      (id) => !newItemIds.includes(id)
+    );
+
     const updatedPack = await prisma.pack.update({
       where: { id },
       data: {
@@ -56,11 +76,9 @@ async function updatePack(
         price,
         coverImage,
         items: {
-          deleteMany: {},
-          create: items.map((itemId: string) => ({
-            item: {
-              connect: { id: itemId },
-            },
+          deleteMany: itemsToRemove.map((itemId) => ({ itemId })),
+          create: itemsToAdd.map((itemId: string) => ({
+            item: { connect: { id: itemId } },
           })),
         },
       },
@@ -72,6 +90,7 @@ async function updatePack(
         },
       },
     });
+
     res.status(200).json(updatedPack);
   } catch (error) {
     console.error('Error updating pack:', error);

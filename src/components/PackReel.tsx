@@ -14,14 +14,22 @@ interface Item {
   name: string;
   image: string;
   price: number;
-  rarity: number;
-  value: number;
+  description?: string;
+  brand?: string;
+}
+
+interface Pack {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  coverImage?: string;
+  items: { item: Item }[];
 }
 
 interface PackReelProps {
-  items: Item[];
+  pack: Pack;
   onOpen: (item: Item) => void;
-  packPrice: number;
   spinning: boolean;
   setSpinning: (spinning: boolean) => void;
 }
@@ -31,7 +39,7 @@ export interface PackReelRef {
 }
 
 const PackReel = forwardRef<PackReelRef, PackReelProps>(
-  ({ items, onOpen, packPrice, spinning, setSpinning }, ref) => {
+  ({ pack, onOpen, spinning, setSpinning }, ref) => {
     const [winner, setWinner] = useState<Item | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const itemWidth = 200; // Width of each item in pixels
@@ -43,20 +51,10 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
     }));
 
     const getWinningItem = useCallback(() => {
-      const totalRarity = items.reduce((sum, item) => sum + item.rarity, 0);
-      const randomValue = Math.random() * totalRarity;
-      let cumulativeRarity = 0;
-
-      for (const item of items) {
-        cumulativeRarity += item.rarity;
-        if (randomValue <= cumulativeRarity) {
-          console.log(`Won item: ${item.name}, Rarity: ${item.rarity}%`);
-          return item;
-        }
-      }
-
-      return items[items.length - 1]; // Fallback to last item if something goes wrong
-    }, [items]);
+      const items = pack.items.map((pi) => pi.item);
+      // Since we don't have rarity, we'll use a simple random selection
+      return items[Math.floor(Math.random() * items.length)];
+    }, [pack.items]);
 
     const spinReel = (demo: boolean = false) => {
       if (spinning) return;
@@ -64,13 +62,13 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
       setSpinning(true);
       setWinner(null);
 
-      const winningItem = demo
-        ? items[Math.floor(Math.random() * items.length)]
-        : getWinningItem();
-      const winningIndex = items.indexOf(winningItem);
+      const winningItem = getWinningItem();
+      const winningIndex = pack.items.findIndex(
+        (pi) => pi.item.id === winningItem.id
+      );
 
       // Calculate the exact distance to the winning item
-      const totalItems = items.length;
+      const totalItems = pack.items.length;
       const centerOffset = Math.floor(visibleItems / 2);
       const initialSpins = 4 * totalItems; // 4 full rotations
       const spinDistance =
@@ -94,7 +92,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
       });
     };
 
-    // Add these easing functions at the top of your component or in a separate utils file
+    // Easing functions (unchanged)
     const easeInOutCubic = (t: number) =>
       t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     const easeOutBack = (t: number) => {
@@ -115,18 +113,13 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
     }, []);
 
     // Ensure the reel always shows the items in the correct order
-    const displayItems = [...items, ...items, ...items, ...items, ...items]; // Triple the items to ensure smooth looping
-
-    // ! test the getWinningItem function logic
-    // useEffect(() => {
-    //   const runGetWinningItem = () => {
-    //     for (let i = 0; i < 100; i++) {
-    //       getWinningItem();
-    //     }
-    //   };
-
-    //   runGetWinningItem();
-    // }, [getWinningItem]);
+    const displayItems = [
+      ...pack.items,
+      ...pack.items,
+      ...pack.items,
+      ...pack.items,
+      ...pack.items,
+    ]; // Quintuple the items to ensure smooth looping
 
     useImperativeHandle(ref, () => ({
       spinReel: (demo: boolean) => {
@@ -143,35 +136,34 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
             style={{
               width: `${displayItems.length * itemWidth}px`,
               transform: springProps.x.to(
-                (x) => `translateX(${x % (items.length * itemWidth)}px)`
+                (x) => `translateX(${x % (pack.items.length * itemWidth)}px)`
               ),
             }}
           >
-            {displayItems.map((item, index) => (
+            {displayItems.map((packItem, index) => (
               <div
-                key={`${item.id}-${index}`}
+                key={`${packItem.item.id}-${index}`}
                 className="flex-shrink-0 w-[200px] h-48 p-2"
               >
                 <img
-                  src={item.image}
-                  alt={item.name}
+                  src={packItem.item.image}
+                  alt={packItem.item.name}
                   className="w-full h-full object-contain"
                 />
               </div>
             ))}
           </animated.div>
-          {/* TODO: make this dynamic and remove the left-calc */}
           <div className="absolute left-[calc(50%+110px)] top-0 bottom-0 w-[200px] border-4 border-yellow-400 -translate-x-1/2 pointer-events-none" />
         </div>
         {winner && (
           <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-white">{winner.name}</h2>
             <p className="text-xl text-yellow-400">
-              ${winner.value.toFixed(2)}
+              ${winner.price.toFixed(2)}
             </p>
-            <p className="text-sm text-gray-400">
-              Rarity: {winner.rarity.toFixed(2)}%
-            </p>
+            {winner.brand && (
+              <p className="text-sm text-gray-400">Brand: {winner.brand}</p>
+            )}
           </div>
         )}
       </div>

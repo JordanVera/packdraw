@@ -12,10 +12,10 @@ const Navbar = () => {
           <Copy fill="white" />
           <h3 className="text-lg font-bold">Pack Draw</h3>
         </Link>
-        <button className="flex items-center gap-2">
+        <Link href="/pack" className="flex items-center gap-2">
           <PackageOpen fill="white" />
           <h3 className="text-sm font-semibold">Packs</h3>
-        </button>
+        </Link>
         <button className="flex items-center gap-2">
           <Swords fill="white" />
           <h3 className="text-sm font-semibold">Battles</h3>

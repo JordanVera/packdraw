@@ -5,7 +5,7 @@ import { PacksProvider } from '@/providers/UserProvider';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <PacksProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </PacksProvider>
   );
 }
