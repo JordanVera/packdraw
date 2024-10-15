@@ -10,6 +10,7 @@ export default function PackPage() {
   const [pack, setPack] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // asdasd
   const fetchPackData = async (packId: string) => {
     setLoading(true);
     try {
