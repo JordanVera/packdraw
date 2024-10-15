@@ -1,5 +1,6 @@
 import React from 'react';
 import { usePacks } from '@/providers/UserProvider';
+import Link from 'next/link';
 
 const NewPacks = () => {
   const { allPacks } = usePacks();
@@ -16,14 +17,18 @@ const NewPacks = () => {
       </div>
       <div className="flex flex-wrap gap-4">
         {[...allPacks, ...allPacks].slice(0, 5).map((pack) => (
-          <div key={pack.id} className="flex flex-col gap-5">
+          <Link
+            key={pack.id}
+            href={`/pack/${pack.id}`}
+            className="flex flex-col gap-5"
+          >
             <img
               src={pack.coverImage}
               alt={pack.name}
               className="w-full max-w-[186px] card"
             />
             <h4 className="text-xl font-semibold text-center">${pack.price}</h4>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

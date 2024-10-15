@@ -1,3 +1,4 @@
+import PackService from '@/services/PackService';
 import React, {
   createContext,
   useState,
@@ -12,7 +13,6 @@ interface PacksContextType {
 }
 
 const PacksContext = createContext<PacksContextType | undefined>(undefined);
-
 export const PacksProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
@@ -24,12 +24,7 @@ export const PacksProvider: React.FC<{ children: ReactNode }> = ({
 
   const fetchAllPacks = async () => {
     try {
-      const response = await fetch('/api/packs');
-      if (!response.ok) {
-        throw new Error('Failed to fetch packs');
-      }
-
-      const packs = await response.json();
+      const packs = await PackService.getAllPacks();
       setAllPacks(packs);
     } catch (error) {
       console.error('Error fetching packs:', error);
