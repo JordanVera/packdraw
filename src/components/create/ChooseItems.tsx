@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { usePacks } from '@/providers/PackProvider';
-import ItemCard from './ItemCard';
+import ItemCard from '../cards/ItemCard';
 import { Item } from '@/types/Item';
 
-const ChooseItems = () => {
+const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
   const { allItems } = usePacks();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedItems, setSelectedItems] = useState<Item[]>([]);
-  const itemsPerPage = 32; // Adjust this number as needed
 
+  const itemsPerPage = 32;
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -18,6 +17,10 @@ const ChooseItems = () => {
   useEffect(() => {
     console.log({ allItems });
   }, [allItems]);
+
+  useEffect(() => {
+    console.log({ selectedItems });
+  }, [selectedItems]);
 
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 max-h-[700px] overflow-y-auto no-scrollbar">
@@ -42,7 +45,12 @@ const ChooseItems = () => {
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {currentItems.map((item) => (
-          <ItemCard key={item.id} item={item} />
+          <ItemCard
+            key={item.id}
+            item={item}
+            selectedItems={selectedItems}
+            handleSelectItem={handleSelectItem}
+          />
         ))}
       </div>
 

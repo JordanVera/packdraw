@@ -1,8 +1,11 @@
-const ItemCard = ({ item }: { item: any }) => {
+const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
   return (
-    <div
+    <button
       key={item.id}
-      className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out"
+      onClick={() => handleSelectItem(item)}
+      className={`aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out ${
+        selectedItems.includes(item) ? 'border-2 border-yellow-500' : ''
+      }`}
     >
       <p className="text-xs font-semibold text-gray-400 text-center">
         {item.rarity}
@@ -18,7 +21,7 @@ const ItemCard = ({ item }: { item: any }) => {
         <h3 className="text-sm font-bold truncate text-center">{item.name}</h3>
         <p className="text-sm text-zinc-400 text-center">${item.price}</p>
       </div>
-    </div>
+    </button>
   );
 };
 
