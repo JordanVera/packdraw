@@ -47,6 +47,10 @@ const CreatePack = () => {
       </div>
 
       <ChoosePackImage />
+
+      <button className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors">
+        Create Pack
+      </button>
     </div>
   );
 };
