@@ -1,11 +1,17 @@
-import { Eye, Trash } from 'lucide-react'; // Replace Icon1 and Icon2 with actual icon names you choose
+import { Eye, X } from 'lucide-react'; // Replace Icon1 and Icon2 with actual icon names you choose
+import { Item } from '@/types/Item';
 
-const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
+const SelectedItemCard = ({ item, setSelectedItems }: { item: Item }) => {
+  const handleRemoveItem = () => {
+    setSelectedItems((prev: Item[]) =>
+      prev.filter((i: Item) => i.id !== item.id)
+    );
+  };
+
   return (
     <button
       key={item.id}
-      onClick={() => handleSelectItem(item)}
-      className={`relative aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out`}
+      className={`relative w-full max-w-xs aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out`}
     >
       {/* Upper Left Icon Button */}
       <button
@@ -20,13 +26,10 @@ const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
 
       {/* Upper Right Icon Button */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          // Add your handler here
-        }}
+        onClick={handleRemoveItem}
         className="absolute top-2 right-2 p-1 bg-zinc-700 bg-opacity-50 rounded-full hover:bg-zinc-600 transition-colors duration-300"
       >
-        <Trash className="h-4 w-4 text-white" />
+        <X className="h-4 w-4 text-white" />
       </button>
 
       <p className="text-xs font-semibold text-gray-400 text-center">
@@ -47,4 +50,4 @@ const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
   );
 };
 
-export default ItemCard;
+export default SelectedItemCard;
