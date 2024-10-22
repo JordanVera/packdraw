@@ -4,8 +4,8 @@ const NameYourPack = () => {
   const [name, setName] = useState('');
 
   return (
-    <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5">
-      <header className="flex  items-center gap-5">
+    <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 flex-1">
+      <header className="flex items-center gap-5">
         <h2 className="flex items-center justify-center text-xl font-bold text-orange-500 bg-opacity-30 bg-orange-500 rounded-lg h-10 w-10">
           3
         </h2>
@@ -25,6 +25,8 @@ const NameYourPack = () => {
           type="text"
           placeholder="Name your pack"
           className="w-full p-2 rounded-md bg-zinc-800"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </label>
 

@@ -38,10 +38,10 @@ const CreatePack = () => {
       </div>
 
       <div className="flex flex-col md:flex-row gap-5">
-        <div className="w-full md:w-1/2">
+        <div className="w-full flex md:w-1/2">
           <NameYourPack />
         </div>
-        <div className="w-full md:w-1/2">
+        <div className="w-full flex md:w-1/2">
           <SetCommision />
         </div>
       </div>
