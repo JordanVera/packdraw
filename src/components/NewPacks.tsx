@@ -1,6 +1,7 @@
 import React from 'react';
 import { usePacks } from '@/providers/PackProvider';
 import Link from 'next/link';
+import Tilt from 'react-parallax-tilt';
 
 const NewPacks = () => {
   const { allPacks } = usePacks();
@@ -22,11 +23,19 @@ const NewPacks = () => {
             href={`/pack/${pack.id}`}
             className="flex flex-col gap-5"
           >
-            <img
-              src={pack.coverImage}
-              alt={pack.name}
-              className="w-full max-w-[186px] card"
-            />
+            <Tilt
+              glareEnable={true}
+              glareMaxOpacity={0.5}
+              glareColor="#ffffff"
+              glarePosition="all"
+              glareBorderRadius="20px"
+            >
+              <img
+                src={pack.coverImage}
+                alt={pack.name}
+                className="w-full max-w-[186px] card"
+              />
+            </Tilt>
             <h4 className="text-xl font-semibold text-center">${pack.price}</h4>
           </Link>
         ))}

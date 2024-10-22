@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import ChooseItems from '@/components/create/ChooseItems';
 import ChosenItemChances from '@/components/create/ChosenItemChances';
 import { Item } from '@/types/Item';
+import NameYourPack from '@/components/create/NameYourPack';
+import SetCommision from '@/components/create/SetCommision';
 
 const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
@@ -17,21 +19,30 @@ const CreatePack = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto m-5">
-      <div className="flex gap-5">
-        <div className="w-3/4">
+    <div className="max-w-screen-xl mx-auto m-5 p-5 flex flex-col gap-5">
+      <div className="flex flex-col md:flex-row gap-5">
+        <div className="w-full md:w-3/4">
           <ChooseItems
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
             handleSelectItem={handleSelectItem}
           />
         </div>
-        <div className="w-1/4">
+        <div className="w-full md:w-1/4">
           <ChosenItemChances
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
             handleSelectItem={handleSelectItem}
           />
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-5">
+        <div className="w-full md:w-1/2">
+          <NameYourPack />
+        </div>
+        <div className="w-full md:w-1/2">
+          <SetCommision />
         </div>
       </div>
     </div>
