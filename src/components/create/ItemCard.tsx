@@ -2,7 +2,7 @@ const ItemCard = ({ item }: { item: any }) => {
   return (
     <div
       key={item.id}
-      className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between"
+      className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out"
     >
       <p className="text-xs font-semibold text-gray-400 text-center">
         {item.rarity}

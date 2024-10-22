@@ -1,19 +1,9 @@
 import axios from 'axios';
+import { Item } from '@/types/Item';
 
 interface Pack {
   id: string;
   // Add other pack properties here
-}
-
-interface Item {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  image?: string;
-  brand?: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 class PackService {
