@@ -1,11 +1,11 @@
 import React from 'react';
-import { usePacks } from '@/providers/UserProvider';
+import { usePacks } from '@/providers/PackProvider';
 import Link from 'next/link';
 
 const NewPacks = () => {
   const { allPacks } = usePacks();
 
-  console.log(allPacks);
+  // console.log(allPacks);
 
   return (
     <div>

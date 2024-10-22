@@ -6,7 +6,7 @@ import PackReel, { PackReelRef } from '../../components/PackReel';
 import ButtonBar from '@/components/ButtonBar';
 
 interface PackPageProps {
-  pack: Pack; // Use the Pack interface from PackReel
+  pack: any; // Use the Pack interface from PackReel
 }
 
 export default function PackPage({ pack }: PackPageProps) {
@@ -14,7 +14,7 @@ export default function PackPage({ pack }: PackPageProps) {
   const reelRef = useRef<PackReelRef>(null);
   const router = useRouter();
 
-  const handleOpen = (item: Item) => {
+  const handleOpen = (item: any) => {
     // Handle the opened item (e.g., show a modal, update user inventory, etc.)
     console.log('Opened item:', item);
   };

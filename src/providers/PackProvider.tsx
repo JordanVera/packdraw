@@ -10,6 +10,7 @@ import React, {
 // Define the shape of your context
 interface PacksContextType {
   allPacks: any[]; // Replace 'any' with a more specific type if you know the structure of your packs
+  allItems: any[]; // Replace 'any' with a more specific type if you know the structure of your items
 }
 
 const PacksContext = createContext<PacksContextType | undefined>(undefined);
@@ -17,9 +18,11 @@ export const PacksProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [allPacks, setAllPacks] = useState<any[]>([]); // Again, replace 'any' with a more specific type if possible
+  const [allItems, setAllItems] = useState<any[]>([]);
 
   useEffect(() => {
     fetchAllPacks();
+    fetchAllItems();
   }, []);
 
   const fetchAllPacks = async () => {
@@ -32,8 +35,17 @@ export const PacksProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const fetchAllItems = async () => {
+    try {
+      const items = await PackService.getAllItems();
+      setAllItems(items);
+    } catch (error) {
+      console.error('Error fetching items:', error);
+    }
+  };
+
   return (
-    <PacksContext.Provider value={{ allPacks }}>
+    <PacksContext.Provider value={{ allPacks, allItems }}>
       {children}
     </PacksContext.Provider>
   );

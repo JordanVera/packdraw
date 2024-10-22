@@ -3,13 +3,9 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function getAllItems() {
-  return await prisma.item.findMany();
-}
-
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const items = await getAllItems();
+    const items = await prisma.item.findMany();
     res.status(200).json(items);
   } catch (error) {
     console.error('Error fetching items:', error);

@@ -1,4 +1,4 @@
-import { usePacks } from '@/providers/UserProvider';
+import { usePacks } from '@/providers/PackProvider';
 import { Play, Pause } from 'lucide-react';
 
 const LiveOpens = () => {

@@ -5,6 +5,17 @@ interface Pack {
   // Add other pack properties here
 }
 
+interface Item {
+  id: string;
+  name: string;
+  description?: string;
+  price: number;
+  image?: string;
+  brand?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 class PackService {
   private baseUrl: string;
 
@@ -28,6 +39,16 @@ class PackService {
       return response.data;
     } catch (error) {
       console.error(`Error fetching pack with id ${id}:`, error);
+      throw error;
+    }
+  }
+
+  async getAllItems(): Promise<Item[]> {
+    try {
+      const response = await axios.get<Item[]>(`${this.baseUrl}/items`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all items:', error);
       throw error;
     }
   }
