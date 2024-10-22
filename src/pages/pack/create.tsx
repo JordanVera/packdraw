@@ -4,7 +4,7 @@ import ChosenItemChances from '@/components/create/ChosenItemChances';
 import { Item } from '@/types/Item';
 import NameYourPack from '@/components/create/NameYourPack';
 import SetCommision from '@/components/create/SetCommision';
-
+import ChoosePackImage from '@/components/create/ChoosePackImage';
 const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const handleSelectItem = (item: Item) => {
@@ -45,6 +45,8 @@ const CreatePack = () => {
           <SetCommision />
         </div>
       </div>
+
+      <ChoosePackImage />
     </div>
   );
 };
