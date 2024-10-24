@@ -9,7 +9,6 @@ import ChoosePackImage from '@/components/create/ChoosePackImage';
 const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
-
   const [name, setName] = useState<string>('');
   const [commision, setCommision] = useState<number>(0.5);
 

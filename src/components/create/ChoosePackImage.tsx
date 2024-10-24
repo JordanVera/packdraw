@@ -9,6 +9,17 @@ const ChoosePackImage = () => {
         </h2>
 
         <h2 className="text-xl font-bold">Choose Pack Image</h2>
+
+        <div className="flex flex-wrap gap-5">
+          {Array.from({ length: 14 }).map((_, index) => (
+            <div key={index} className="w-20  bg-zinc-800 rounded-lg">
+              <img
+                src={`/images/packs/version${index + 1}.webp`}
+                alt="Pack Image"
+              />
+            </div>
+          ))}
+        </div>
       </header>
     </section>
   );
