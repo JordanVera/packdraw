@@ -5,8 +5,11 @@ import { Item } from '@/types/Item';
 import NameYourPack from '@/components/create/NameYourPack';
 import SetCommision from '@/components/create/SetCommision';
 import ChoosePackImage from '@/components/create/ChoosePackImage';
+
 const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
+  const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
+
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
       const itemIndex = prev.findIndex((i) => i.id === item.id);
@@ -16,6 +19,30 @@ const CreatePack = () => {
         return prev.filter((i) => i.id !== item.id); // Item already in array, remove it
       }
     });
+  };
+
+  const updateTotalQuantity = () => {
+    const newTotal = selectedItems.reduce(
+      (acc, item) => acc + (item.quantity || 0),
+      0
+    );
+    setTotalQuantityOfItems(newTotal);
+  };
+
+  useEffect(() => {
+    updateTotalQuantity();
+  }, [selectedItems]);
+
+  useEffect(() => {
+    console.log({ totalQuantityOfItems });
+  }, [totalQuantityOfItems]);
+
+  const handleQuantityChange = (itemId: string, newQuantity: number) => {
+    setSelectedItems((prev) =>
+      prev.map((item) =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
   return (
@@ -33,6 +60,8 @@ const CreatePack = () => {
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
             handleSelectItem={handleSelectItem}
+            totalQuantityOfItems={totalQuantityOfItems}
+            handleQuantityChange={handleQuantityChange}
           />
         </div>
       </div>

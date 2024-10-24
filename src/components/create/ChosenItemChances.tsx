@@ -6,8 +6,13 @@ import ProgressBar from '@ramonak/react-progress-bar';
 const ChosenItemChances = ({
   selectedItems,
   setSelectedItems,
+  totalQuantityOfItems,
+  handleQuantityChange,
 }: {
   selectedItems: Item[];
+  setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
+  totalQuantityOfItems: number;
+  handleQuantityChange: (itemId: string, newQuantity: number) => void;
 }) => {
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 max-h-[700px] h-full overflow-y-auto no-scrollbar">
@@ -26,7 +31,7 @@ const ChosenItemChances = ({
         </div>
 
         <ProgressBar
-          completed={50}
+          completed={totalQuantityOfItems}
           maxCompleted={100}
           className="w-full"
           bgColor="#ff0000"
@@ -37,8 +42,9 @@ const ChosenItemChances = ({
         <SelectedItemCard
           key={item.id}
           item={item}
-          selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
+          totalQuantityOfItems={totalQuantityOfItems}
+          handleQuantityChange={handleQuantityChange}
         />
       ))}
 

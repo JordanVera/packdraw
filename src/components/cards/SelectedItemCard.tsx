@@ -1,7 +1,29 @@
+import { useState, useEffect } from 'react';
 import { Eye, X } from 'lucide-react'; // Replace Icon1 and Icon2 with actual icon names you choose
 import { Item } from '@/types/Item';
 
-const SelectedItemCard = ({ item, setSelectedItems }: { item: Item }) => {
+const SelectedItemCard = ({
+  item,
+  setSelectedItems,
+  totalQuantityOfItems,
+  handleQuantityChange,
+}: {
+  item: Item;
+  setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
+  totalQuantityOfItems: number;
+  handleQuantityChange: (itemId: string, newQuantity: number) => void;
+}) => {
+  const [quantity, setQuantity] = useState(item.quantity || 1);
+
+  useEffect(() => {
+    setQuantity(item.quantity || 1);
+  }, [item.quantity]);
+
+  const handleQuantityUpdate = (newQuantity: number) => {
+    setQuantity(newQuantity);
+    handleQuantityChange(item.id, newQuantity);
+  };
+
   const handleRemoveItem = () => {
     setSelectedItems((prev: Item[]) =>
       prev.filter((i: Item) => i.id !== item.id)
@@ -9,9 +31,9 @@ const SelectedItemCard = ({ item, setSelectedItems }: { item: Item }) => {
   };
 
   return (
-    <button
+    <div
       key={item.id}
-      className={`relative w-full max-w-xs aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between cursor-pointer hover:bg-zinc-700 transition-colors duration-500 ease-in-out`}
+      className={`relative w-full max-w-xs aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between`}
     >
       {/* Upper Left Icon Button */}
       <button
@@ -42,11 +64,19 @@ const SelectedItemCard = ({ item, setSelectedItems }: { item: Item }) => {
           className="h-20 w-20 max-w-full max-h-full object-contain rounded-md"
         />
       </div>
-      <div>
+      <div className="mb-4">
         <h3 className="text-sm font-bold truncate text-center">{item.name}</h3>
         <p className="text-sm text-zinc-400 text-center">${item.price}</p>
       </div>
-    </button>
+
+      <input
+        value={quantity}
+        onChange={(e) => handleQuantityUpdate(parseInt(e.target.value) || 0)}
+        type="number"
+        min="0"
+        className="px-3 py-2 bg-zinc-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+      />
+    </div>
   );
 };
 
