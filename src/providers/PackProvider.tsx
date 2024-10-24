@@ -45,7 +45,9 @@ export const PacksProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <PacksContext.Provider value={{ allPacks, allItems }}>
+    <PacksContext.Provider
+      value={{ allPacks, allItems, setAllItems, setAllPacks }}
+    >
       {children}
     </PacksContext.Provider>
   );

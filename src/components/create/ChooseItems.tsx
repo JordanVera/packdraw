@@ -4,19 +4,38 @@ import ItemCard from '../cards/ItemCard';
 import { Item } from '@/types/Item';
 
 const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
-  const { allItems } = usePacks();
+  const { allItems, setAllItems } = usePacks();
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [filteredItems, setFilteredItems] = useState(allItems);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined); // Added state for max price
 
   const itemsPerPage = 32;
   // Calculate pagination
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = allItems.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(allItems.length / itemsPerPage);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
 
   useEffect(() => {
     console.log({ allItems });
-  }, [allItems]);
+
+    // Apply both search and max price filters
+    let updatedItems = allItems;
+
+    // Apply search filter if needed (assuming searchTerm is handled elsewhere)
+    // You can integrate searchTerm state similarly if necessary
+
+    // Apply max price filter
+    if (maxPrice !== undefined && maxPrice !== null && maxPrice !== 0) {
+      updatedItems = updatedItems.filter(
+        (item: Item) => item.price <= maxPrice
+      );
+    }
+
+    setFilteredItems(updatedItems);
+    setCurrentPage(1); // Reset to first page whenever filters change
+  }, [allItems, maxPrice]);
 
   useEffect(() => {
     console.log({ selectedItems });
@@ -34,10 +53,46 @@ const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
           <p className="text-sm text-zinc-400">(50 items max)</p>
         </div>
 
+        <div className="flex items-center justify-between">
+          <input
+            type="search"
+            placeholder="Search items..."
+            onChange={(e) => {
+              const searchTerm = e.target.value.toLowerCase();
+              const filtered = allItems.filter((item) =>
+                item.name.toLowerCase().includes(searchTerm)
+              );
+
+              // Apply max price filter if set
+              const finalFiltered = maxPrice
+                ? filtered.filter((item: Item) => item.price <= maxPrice)
+                : filtered;
+
+              setCurrentPage(1);
+              setFilteredItems(finalFiltered);
+            }}
+            className="px-3 py-2 bg-zinc-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+
+          <input
+            type="number"
+            placeholder="Max price..."
+            name=""
+            id=""
+            className="px-3 py-2 bg-zinc-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            value={maxPrice || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              const parsedValue = value ? parseFloat(value) : undefined;
+              setMaxPrice(parsedValue);
+            }}
+          />
+        </div>
+
         <PaginationControls
           indexOfFirstItem={indexOfFirstItem}
           indexOfLastItem={indexOfLastItem}
-          allItems={allItems}
+          allItems={filteredItems}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           totalPages={totalPages}
@@ -57,7 +112,7 @@ const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
       <PaginationControls
         indexOfFirstItem={indexOfFirstItem}
         indexOfLastItem={indexOfLastItem}
-        allItems={allItems}
+        allItems={filteredItems}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}

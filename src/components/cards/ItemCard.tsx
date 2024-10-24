@@ -1,3 +1,5 @@
+import { formatNumberWithCommas } from '@/utils/formatNumbers';
+
 const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
   return (
     <button
@@ -18,8 +20,12 @@ const ItemCard = ({ item, selectedItems, handleSelectItem }: { item: any }) => {
         />
       </div>
       <div>
-        <h3 className="text-sm font-bold truncate text-center">{item.name}</h3>
-        <p className="text-sm text-zinc-400 text-center">${item.price}</p>
+        <h3 className="text-zinc-400 text-sm  truncate text-center">
+          {item.name}
+        </h3>
+        <p className="text-md  text-center font-bold">
+          ${formatNumberWithCommas(item.price)}
+        </p>
       </div>
     </button>
   );
