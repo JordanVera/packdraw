@@ -10,6 +10,9 @@ const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
 
+  const [name, setName] = useState<string>('');
+  const [commision, setCommision] = useState<number>(0.5);
+
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
       const itemIndex = prev.findIndex((i) => i.id === item.id);
@@ -45,6 +48,14 @@ const CreatePack = () => {
     );
   };
 
+  useEffect(() => {
+    console.log({ name });
+  }, [name]);
+
+  useEffect(() => {
+    console.log({ commision });
+  }, [commision]);
+
   return (
     <div className="max-w-screen-xl mx-auto m-5 p-5 flex flex-col gap-5">
       <div className="flex flex-col md:flex-row gap-5">
@@ -68,10 +79,10 @@ const CreatePack = () => {
 
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-full flex md:w-1/2">
-          <NameYourPack />
+          <NameYourPack name={name} setName={setName} />
         </div>
         <div className="w-full flex md:w-1/2">
-          <SetCommision />
+          <SetCommision commision={commision} setCommision={setCommision} />
         </div>
       </div>
 

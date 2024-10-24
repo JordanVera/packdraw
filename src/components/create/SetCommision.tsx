@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-const SetCommision = () => {
+const SetCommision = ({
+  commision,
+  setCommision,
+}: {
+  commision: number;
+  setCommision: (commision: number) => void;
+}) => {
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 flex-1">
       <header className="flex items-center gap-5">
@@ -17,7 +23,12 @@ const SetCommision = () => {
           <p className="text-sm text-zinc-400 font-semibold">(0.5% to 3.0%)</p>
         </div>
 
-        <select className="w-full p-2 rounded-md bg-zinc-800" defaultValue="1">
+        <select
+          className="w-full p-2 rounded-md bg-zinc-800"
+          defaultValue="1"
+          value={commision}
+          onChange={(e) => setCommision(Number(e.target.value))}
+        >
           <option value="0.5">0.5%</option>
           <option value="1">1%</option>
           <option value="1.5">1.5%</option>
