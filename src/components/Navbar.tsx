@@ -1,8 +1,10 @@
 import React from 'react';
 import { PackageOpen, Swords, Copy } from 'lucide-react';
 import Link from 'next/link';
+import { useUser } from '@/providers/UserProvider';
 
 const Navbar = () => {
+  const { handleOpenLoginModal } = useUser();
   return (
     <header className="flex justify-between items-center max-w-screen-xl mx-auto py-5">
       <div className="flex items-center gap-5">
@@ -22,7 +24,10 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
-        <button className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600">
+        <button
+          onClick={handleOpenLoginModal}
+          className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+        >
           Login
         </button>
       </div>
