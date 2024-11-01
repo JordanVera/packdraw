@@ -6,8 +6,6 @@ import Tilt from 'react-parallax-tilt';
 const NewPacks = () => {
   const { allPacks } = usePacks();
 
-  // console.log(allPacks);
-
   return (
     <div>
       <div className="flex justify-between items-center mb-5">
@@ -29,6 +27,8 @@ const NewPacks = () => {
               glareColor="#ffffff"
               glarePosition="all"
               glareBorderRadius="20px"
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
             >
               <img
                 src={pack.coverImage}
