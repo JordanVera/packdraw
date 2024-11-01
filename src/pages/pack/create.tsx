@@ -57,7 +57,7 @@ const CreatePack = () => {
   }, [commision]);
 
   return (
-    <div className="max-w-screen-xl mx-auto m-5 p-5 flex flex-col gap-5">
+    <div className="max-w-screen-xl mx-auto  flex flex-col gap-5">
       <div className="flex flex-col md:flex-row gap-5">
         <div className="w-full md:w-3/4">
           <ChooseItems

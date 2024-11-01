@@ -14,10 +14,10 @@ const SelectedItemCard = ({
   totalQuantityOfItems: number;
   handleQuantityChange: (itemId: string, newQuantity: number) => void;
 }) => {
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+  const [quantity, setQuantity] = useState(item.quantity || 1.002);
 
   useEffect(() => {
-    setQuantity(item.quantity || 1);
+    setQuantity(item.quantity || 1.002);
   }, [item.quantity]);
 
   const handleQuantityUpdate = (newQuantity: number) => {
@@ -55,9 +55,6 @@ const SelectedItemCard = ({
         <X className="h-4 w-4 text-white" />
       </button>
 
-      <p className="text-xs font-semibold text-gray-400 text-center">
-        {item.rarity}
-      </p>
       <div className="flex-grow flex items-center justify-center">
         <img
           src={item.image}
@@ -73,10 +70,19 @@ const SelectedItemCard = ({
       </div>
 
       <input
-        value={quantity}
-        onChange={(e) => handleQuantityUpdate(parseInt(e.target.value) || 0)}
+        value={quantity.toFixed(4)}
+        onChange={(e) => {
+          const value = e.target.value;
+          // Allow direct editing by converting string to number
+          const newQuantity = value === '' ? 0 : Number(value);
+          handleQuantityUpdate(newQuantity);
+        }}
         type="number"
         min="0"
+        step="1"
+        // Add these attributes to allow decimal places while keeping step=1
+        inputMode="decimal"
+        pattern="[0-9]*(.[0-9]{0,4})?"
         className="px-3 py-2 bg-zinc-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
       />
     </div>
