@@ -48,7 +48,7 @@ const ChooseItems = ({
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 max-h-[700px] overflow-y-auto no-scrollbar">
       <header className="flex flex-col gap-2">
         <div className="flex  items-center gap-5">
-          <h2 className="flex items-center justify-center text-xl font-bold text-orange-500 bg-opacity-30 bg-orange-500 rounded-lg h-10 w-10">
+          <h2 className="flex items-center justify-center text-xl font-bold text-orange-500 bg-opacity-30 bg-orange-500 rounded-lg h-8 w-8">
             1
           </h2>
           <h2 className="text-xl font-bold">Choose Items</h2>
