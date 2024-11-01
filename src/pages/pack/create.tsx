@@ -11,6 +11,7 @@ const CreatePack = () => {
   const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
   const [name, setName] = useState<string>('');
   const [commision, setCommision] = useState<number>(0.5);
+  const [computedPackPrice, setComputedPackPrice] = useState(0);
 
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
@@ -72,6 +73,9 @@ const CreatePack = () => {
             handleSelectItem={handleSelectItem}
             totalQuantityOfItems={totalQuantityOfItems}
             handleQuantityChange={handleQuantityChange}
+            computedPackPrice={computedPackPrice}
+            setComputedPackPrice={setComputedPackPrice}
+            commision={commision}
           />
         </div>
       </div>

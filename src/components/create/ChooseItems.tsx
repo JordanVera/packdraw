@@ -3,10 +3,13 @@ import { usePacks } from '@/providers/PackProvider';
 import ItemCard from '../cards/ItemCard';
 import { Item } from '@/types/Item';
 
-const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
-  const { allItems, setAllItems } = usePacks();
+const ChooseItems = ({
+  selectedItems,
+  handleSelectItem,
+  
+}) => {
+  const { allItems } = usePacks();
   const [currentPage, setCurrentPage] = useState(1);
-
   const [filteredItems, setFilteredItems] = useState(allItems);
   const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined); // Added state for max price
 
@@ -98,6 +101,7 @@ const ChooseItems = ({ selectedItems, setSelectedItems, handleSelectItem }) => {
           totalPages={totalPages}
         />
       </header>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
         {currentItems.map((item) => (
           <ItemCard

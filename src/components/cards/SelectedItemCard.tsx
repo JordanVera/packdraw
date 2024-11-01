@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Eye, X } from 'lucide-react'; // Replace Icon1 and Icon2 with actual icon names you choose
 import { Item } from '@/types/Item';
+import { formatNumberWithCommas } from '@/utils/formatNumbers';
 
 const SelectedItemCard = ({
   item,
@@ -66,7 +67,9 @@ const SelectedItemCard = ({
       </div>
       <div className="mb-4">
         <h3 className="text-sm font-bold truncate text-center">{item.name}</h3>
-        <p className="text-sm text-zinc-400 text-center">${item.price}</p>
+        <p className="text-sm text-zinc-400 text-center">
+          ${formatNumberWithCommas(item.price.toFixed(2))}
+        </p>
       </div>
 
       <input

@@ -25,7 +25,7 @@ const ChoosePackImage = () => {
             <button
               onClick={() => setSelectedImage(index)}
               key={index}
-              className="w-20 rounded-lg"
+              className="w-[80px] h-[121px] rounded-lg"
             >
               <img
                 src={`/images/packs/version${index + 1}.webp`}
