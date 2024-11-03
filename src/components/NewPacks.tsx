@@ -27,8 +27,8 @@ const NewPacks = () => {
               glareColor="#ffffff"
               glarePosition="all"
               glareBorderRadius="20px"
-              // tiltMaxAngleX={10}
-              // tiltMaxAngleY={10}
+              tiltMaxAngleX={10}
+              tiltMaxAngleY={10}
             >
               <img
                 src={pack.coverImage}
