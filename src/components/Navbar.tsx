@@ -2,8 +2,10 @@ import React from 'react';
 import { PackageOpen, Swords, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
+import { Avatar } from '@mui/material';
 
 const Navbar = () => {
+  const { user } = useUser();
   const { handleOpenLoginModal } = useUser();
   return (
     <header className="flex justify-between items-center max-w-screen-xl mx-auto py-5">
@@ -24,6 +26,8 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
+        <Avatar src={user?.image} alt={user?.name} />
+
         <button
           onClick={handleOpenLoginModal}
           className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"

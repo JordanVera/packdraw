@@ -4,6 +4,7 @@ import { useUser } from '@/providers/UserProvider';
 import { Box } from '@mui/material';
 import Link from 'next/link';
 import { EyeOff, EyeIcon } from 'lucide-react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const style = {
   position: 'absolute',
@@ -14,6 +15,7 @@ const style = {
 
 export default function LoginModal() {
   const { handleOpenLoginModal, openLoginModal } = useUser();
+  const { data: session } = useSession();
 
   const [showPassword, setShowPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -43,7 +45,10 @@ export default function LoginModal() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Google Sign In Button */}
-              <button className="w-full flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-3 px-4 rounded-lg border border-gray-700 transition-colors">
+              <button
+                onClick={() => signIn('google')}
+                className="w-full flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 text-white py-3 px-4 rounded-lg border border-gray-700 transition-colors"
+              >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"

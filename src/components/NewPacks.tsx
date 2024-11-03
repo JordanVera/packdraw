@@ -15,7 +15,7 @@ const NewPacks = () => {
         </button>
       </div>
       <div className="flex flex-wrap gap-4">
-        {[...allPacks, ...allPacks].slice(0, 5).map((pack) => (
+        {[...allPacks].slice(0, 5).map((pack) => (
           <Link
             key={pack.id}
             href={`/pack/${pack.id}`}
