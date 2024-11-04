@@ -80,7 +80,9 @@ const ChosenItemChances = ({
           />
         ))
       ) : (
-        <p className="bg-zinc-700 h-full rounded-lg">pick sum</p>
+        <p className="bg-zinc-800 h-full rounded-lg flex items-center justify-center text-zinc-500 font-semibold">
+          Select at least two items
+        </p>
       )}
 
       <footer className="flex justify-between items-center">

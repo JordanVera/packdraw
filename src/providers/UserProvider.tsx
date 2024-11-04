@@ -6,29 +6,49 @@ import {
   useEffect,
 } from 'react';
 import { useSession } from 'next-auth/react';
+import { User } from '@/types/User';
+import UserService from '@/services/UserService';
 
 // Define the shape of your context
 interface UserContextType {
   openLoginModal: boolean;
   handleOpenLoginModal: () => void;
-  user: any;
+  user: User | null;
   isLoading: boolean;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
-export const UserProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+// Add default context value
+const UserContext = createContext<UserContextType>({
+  openLoginModal: false,
+  handleOpenLoginModal: () => {},
+  user: null,
+  isLoading: false,
+});
+
+// Make sure to export the provider
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const handleOpenLoginModal = () => setOpenLoginModal((prev) => !prev);
 
   const { data: session, status } = useSession();
   const isLoading = status === 'loading';
-  const user = session?.user || null;
+
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log({ user });
-  }, [user]);
+    console.log({ session: session?.user });
+  }, [session]);
+
+  useEffect(() => {
+    if (session?.user?.id) {
+      UserService.getUserById(session.user.id).then((user) => {
+        console.log({ user });
+        setUser(user);
+      });
+    } else {
+      setUser(null);
+    }
+  }, [session?.user?.id]);
 
   return (
     <UserContext.Provider
@@ -44,9 +64,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
+// Export the hook
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;
