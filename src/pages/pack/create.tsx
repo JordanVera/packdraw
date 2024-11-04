@@ -5,13 +5,16 @@ import { Item } from '@/types/Item';
 import NameYourPack from '@/components/create/NameYourPack';
 import SetCommision from '@/components/create/SetCommision';
 import ChoosePackImage from '@/components/create/ChoosePackImage';
-
+import PackService from '@/services/PackService';
+import { useUser } from '@/providers/UserProvider';
 const CreatePack = () => {
+  const { user } = useUser();
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
   const [name, setName] = useState<string>('');
   const [commision, setCommision] = useState<number>(0.5);
   const [computedPackPrice, setComputedPackPrice] = useState(0);
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
@@ -46,6 +49,25 @@ const CreatePack = () => {
         item.id === itemId ? { ...item, quantity: newQuantity } : item
       )
     );
+  };
+
+  const handleCreatePack = async () => {
+    try {
+      await PackService.createPack({
+        name,
+        description: 'yessss',
+        price: computedPackPrice,
+        coverImage: `version${selectedImage}.webp`,
+        items: selectedItems.map((item) => ({
+          itemId: item.id,
+          quantity: item.quantity || 0,
+        })),
+        userId: user.id,
+        commission: commision,
+      });
+    } catch (error) {
+      console.error('Error creating pack:', error);
+    }
   };
 
   useEffect(() => {
@@ -89,9 +111,15 @@ const CreatePack = () => {
         </div>
       </div>
 
-      <ChoosePackImage />
+      <ChoosePackImage
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
+      />
 
-      <button className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors">
+      <button
+        onClick={handleCreatePack}
+        className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors"
+      >
         Create Pack
       </button>
     </div>

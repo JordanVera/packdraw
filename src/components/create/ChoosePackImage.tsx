@@ -1,8 +1,12 @@
 import { useState } from 'react';
 
-const ChoosePackImage = () => {
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
-
+const ChoosePackImage = ({
+  selectedImage,
+  setSelectedImage,
+}: {
+  selectedImage: number;
+  setSelectedImage: (image: number) => void;
+}) => {
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 flex-1">
       <header className="flex items-center gap-5">

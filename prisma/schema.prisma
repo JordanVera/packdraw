@@ -35,6 +35,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  packs         Pack[]
 
   @@map("users")
 }
@@ -64,8 +65,11 @@ model Pack {
   price       Float
   coverImage  String?
   items       PackItem[]
+  commission  Float      @default(0)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
 }
 
 model Item {
@@ -82,10 +86,11 @@ model Item {
 }
 
 model PackItem {
-  pack   Pack   @relation(fields: [packId], references: [id])
-  packId String
-  item   Item   @relation(fields: [itemId], references: [id])
-  itemId String
+  pack     Pack    @relation(fields: [packId], references: [id])
+  packId   String
+  item     Item    @relation(fields: [itemId], references: [id])
+  itemId   String
+  quantity Decimal @default(1) @db.Decimal(10, 4)
 
   @@id([packId, itemId])
 }

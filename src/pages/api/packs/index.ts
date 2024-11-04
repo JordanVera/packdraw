@@ -16,19 +16,28 @@ export default async function handler(
 }
 
 async function createPack(req: NextApiRequest, res: NextApiResponse) {
+  console.log('createPack');
+  console.log(req.body);
+
   try {
-    const { name, description, price, coverImage, items } = req.body;
+    const { name, description, price, coverImage, items, userId, commission } =
+      req.body;
     const pack = await prisma.pack.create({
       data: {
         name,
         description,
         price,
         coverImage,
+        commission,
+        user: {
+          connect: { id: userId },
+        },
         items: {
-          create: items.map((itemId: string) => ({
+          create: items.map((item: { itemId: string; quantity: number }) => ({
             item: {
-              connect: { id: itemId },
+              connect: { id: item.itemId },
             },
+            quantity: item.quantity,
           })),
         },
       },
@@ -38,6 +47,7 @@ async function createPack(req: NextApiRequest, res: NextApiResponse) {
             item: true,
           },
         },
+        user: true,
       },
     });
     res.status(201).json(pack);

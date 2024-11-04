@@ -42,7 +42,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (session?.user?.id) {
       UserService.getUserById(session.user.id).then((user) => {
-        console.log({ user });
+      console.log({ user });
         setUser(user);
       });
     } else {

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Item } from '@/types/Item';
+import { CreatePackData } from '@/types/CreatePackData';
 
 interface Pack {
   id: string;
@@ -39,6 +40,19 @@ class PackService {
       return response.data;
     } catch (error) {
       console.error('Error fetching all items:', error);
+      throw error;
+    }
+  }
+
+  async createPack(packData: CreatePackData): Promise<Pack> {
+    try {
+      const response = await axios.post<Pack>(
+        `${this.baseUrl}/packs`,
+        packData
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error creating pack:', error);
       throw error;
     }
   }
