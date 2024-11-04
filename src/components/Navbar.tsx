@@ -3,10 +3,14 @@ import { PackageOpen, Swords, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
 import { Avatar } from '@mui/material';
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 const Navbar = () => {
   const { user } = useUser();
   const { handleOpenLoginModal } = useUser();
+
+  const { data: session } = useSession();
   return (
     <header className="flex justify-between items-center max-w-screen-xl mx-auto py-5">
       <div className="flex items-center gap-5">
@@ -28,12 +32,21 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <Avatar src={user?.image} alt={user?.name} />
 
-        <button
-          onClick={handleOpenLoginModal}
-          className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
-        >
-          Login
-        </button>
+        {session ? (
+          <button
+            onClick={() => signOut()}
+            className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={handleOpenLoginModal}
+            className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+          >
+            Login
+          </button>
+        )}
       </div>
     </header>
   );

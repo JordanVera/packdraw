@@ -69,15 +69,19 @@ const ChosenItemChances = ({
         />
       </header>
 
-      {selectedItems.map((item) => (
-        <SelectedItemCard
-          key={item.id}
-          item={item}
-          setSelectedItems={setSelectedItems}
-          totalQuantityOfItems={totalQuantityOfItems}
-          handleQuantityChange={handleQuantityChange}
-        />
-      ))}
+      {selectedItems.length > 0 ? (
+        selectedItems.map((item) => (
+          <SelectedItemCard
+            key={item.id}
+            item={item}
+            setSelectedItems={setSelectedItems}
+            totalQuantityOfItems={totalQuantityOfItems}
+            handleQuantityChange={handleQuantityChange}
+          />
+        ))
+      ) : (
+        <p className="bg-zinc-700 h-full rounded-lg">pick sum</p>
+      )}
 
       <footer className="flex justify-between items-center">
         <p className="text-sm text-zinc-400 font-semibold">

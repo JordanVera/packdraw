@@ -27,7 +27,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const user = session?.user || null;
 
   useEffect(() => {
-    console.log(user);
+    console.log({ user });
   }, [user]);
 
   return (
