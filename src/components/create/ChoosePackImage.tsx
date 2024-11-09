@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const ChoosePackImage = ({
   selectedImage,
@@ -7,6 +7,10 @@ const ChoosePackImage = ({
   selectedImage: number;
   setSelectedImage: (image: number) => void;
 }) => {
+  useEffect(() => {
+    console.log('selectedImage', selectedImage);
+  }, [selectedImage]);
+
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 flex-1">
       <header className="flex items-center gap-5">

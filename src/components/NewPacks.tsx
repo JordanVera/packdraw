@@ -31,7 +31,7 @@ const NewPacks = () => {
               tiltMaxAngleY={10}
             >
               <img
-                src={pack.coverImage}
+                src={`/images/packs/${pack.coverImage}`}
                 alt={pack.name}
                 className="w-full max-w-[186px] card"
               />
