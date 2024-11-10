@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Search } from 'lucide-react';
+import Link from 'next/link';
 export default function PacksPageNav({
   isPacksOpen,
   setIsPacksOpen,
@@ -7,11 +8,11 @@ export default function PacksPageNav({
   setIsPriceOpen,
 }) {
   return (
-    <nav className="flex flex-1 items-stretch gap-6 backdrop-blur-sm px-4 py-2 border border-red-500">
+    <nav className="w-full gap-6 backdrop-blur-sm">
       <div className="w-full flex items-center gap-4">
         {/* Search Input - now with flex-grow */}
         <div className="flex-grow">
-          <Search className="absolute left-7 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="search"
             placeholder="Search"
@@ -116,9 +117,12 @@ export default function PacksPageNav({
           </div>
 
           {/* Create Pack Button */}
-          <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors">
+          <Link
+            href="/pack/create"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+          >
             Create Pack
-          </button>
+          </Link>
         </div>
       </div>
     </nav>

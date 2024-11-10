@@ -11,9 +11,12 @@ const NewPacks = () => {
     <div>
       <div className="flex justify-between items-center mb-5">
         <h2 className="text-xl font-bold">New Packs</h2>
-        <button className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600">
+        <Link
+          href="/pack"
+          className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+        >
           View All
-        </button>
+        </Link>
       </div>
       <div className="flex flex-wrap gap-4">
         {[...allPacks].slice(0, 5).map((pack) => (

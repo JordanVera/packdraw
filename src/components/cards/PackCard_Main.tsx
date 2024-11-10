@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import Tilt from 'react-parallax-tilt';
-
+import {
+  formatNumberWithCommas,
+  roundToTwoDecimals,
+} from '@/utils/formatNumbers';
 
 export default function PackCard_Main({ pack }) {
   return (
@@ -24,7 +27,9 @@ export default function PackCard_Main({ pack }) {
           className="w-full max-w-[186px] card"
         />
       </Tilt>
-      <h4 className="text-xl font-semibold text-center">${pack.price}</h4>
+      <h4 className="text-xl font-semibold text-center">
+        ${formatNumberWithCommas(roundToTwoDecimals(pack.price))}
+      </h4>
     </Link>
   );
 }

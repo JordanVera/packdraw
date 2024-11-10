@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import prisma from '../../lib/prisma';
 import PackReel, { PackReelRef } from '../../components/PackReel';
 import ButtonBar from '@/components/ButtonBar';
+import ItemCardMinimal from '@/components/cards/ItemCardMinimal';
 
 interface PackPageProps {
   pack: any; // Use the Pack interface from PackReel
@@ -12,7 +13,6 @@ interface PackPageProps {
 export default function PackPage({ pack }: PackPageProps) {
   const [spinning, setSpinning] = useState(false);
   const reelRef = useRef<PackReelRef>(null);
-  const router = useRouter();
 
   const handleOpen = (item: any) => {
     // Handle the opened item (e.g., show a modal, update user inventory, etc.)
@@ -24,6 +24,10 @@ export default function PackPage({ pack }: PackPageProps) {
       reelRef.current.spinReel(false);
     }
   };
+
+  useEffect(() => {
+    console.log(pack);
+  }, [pack]);
 
   return (
     <div className="container mx-auto p-4 flex flex-col gap-10">
@@ -42,30 +46,8 @@ export default function PackPage({ pack }: PackPageProps) {
           {pack.name} - ${pack.price.toFixed(2)}
         </h1>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-          {pack.items.map((i: any) => (
-            <div
-              key={i.item.id}
-              className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between"
-            >
-              <p className="text-xs font-semibold text-gray-400 text-center">
-                {i.item.rarity}
-              </p>
-              <div className="flex-grow flex items-center justify-center">
-                <img
-                  src={i.item.image}
-                  alt={i.item.name}
-                  className="h-20 w-20 max-w-full max-h-full object-contain rounded-md"
-                />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold truncate text-center">
-                  {i.item.name}
-                </h3>
-                <p className="text-sm text-zinc-400 text-center">
-                  ${i.item.price}
-                </p>
-              </div>
-            </div>
+          {pack.items.map((packItem: any) => (
+            <ItemCardMinimal key={packItem.item.id} packItem={packItem} />
           ))}
         </div>
       </section>
