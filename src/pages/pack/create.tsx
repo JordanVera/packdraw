@@ -7,6 +7,8 @@ import SetCommission from '@/components/create/SetCommission';
 import ChoosePackImage from '@/components/create/ChoosePackImage';
 import PackService from '@/services/PackService';
 import { useUser } from '@/providers/UserProvider';
+import { showSuccessToast, showErrorToast } from '@/utils/toast';
+
 const CreatePack = () => {
   const { user } = useUser();
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
@@ -15,6 +17,8 @@ const CreatePack = () => {
   const [commission, setCommission] = useState<number>(0.5);
   const [computedPackPrice, setComputedPackPrice] = useState(0);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectItem = (item: Item) => {
     setSelectedItems((prev) => {
@@ -53,7 +57,8 @@ const CreatePack = () => {
 
   const handleCreatePack = async () => {
     try {
-      await PackService.createPack({
+      setIsLoading(true);
+      const response = await PackService.createPack({
         name,
         description: 'yessss',
         price: computedPackPrice,
@@ -65,8 +70,17 @@ const CreatePack = () => {
         userId: user.id,
         commission: commission,
       });
+
+      console.log({ response });
+
+      if (response.id) {
+        showSuccessToast('Pack created successfully');
+      }
     } catch (error) {
       console.error('Error creating pack:', error);
+      showErrorToast('Error creating pack');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -121,9 +135,10 @@ const CreatePack = () => {
 
       <button
         onClick={handleCreatePack}
-        className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors"
+        className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors disabled:opacity-50"
+        disabled={isLoading}
       >
-        Create Pack
+        {isLoading ? 'Creating...' : 'Create Pack'}
       </button>
     </div>
   );

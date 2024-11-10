@@ -50,6 +50,7 @@ class PackService {
         `${this.baseUrl}/packs`,
         packData
       );
+      
       return response.data;
     } catch (error) {
       console.error('Error creating pack:', error);
