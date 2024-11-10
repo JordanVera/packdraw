@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-const SetCommision = ({
-  commision,
-  setCommision,
+const SetCommission = ({
+  commission,
+  setCommission,
 }: {
-  commision: number;
-  setCommision: (commision: number) => void;
+  commission: number;
+  setCommission: (commission: number) => void;
 }) => {
   return (
     <section className="flex flex-col gap-5 rounded-lg bg-zinc-900 p-5 flex-1">
@@ -26,8 +26,8 @@ const SetCommision = ({
         <select
           className="w-full p-2 rounded-md bg-zinc-800"
           defaultValue="1"
-          value={commision}
-          onChange={(e) => setCommision(Number(e.target.value))}
+          value={commission}
+          onChange={(e) => setCommission(Number(e.target.value))}
         >
           <option value="0.5">0.5%</option>
           <option value="1">1%</option>
@@ -45,4 +45,4 @@ const SetCommision = ({
   );
 };
 
-export default SetCommision;
+export default SetCommission;

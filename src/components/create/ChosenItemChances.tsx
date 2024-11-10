@@ -11,7 +11,7 @@ const ChosenItemChances = ({
   handleQuantityChange,
   computedPackPrice,
   setComputedPackPrice,
-  commision,
+  commission,
 }: {
   selectedItems: Item[];
   setSelectedItems: React.Dispatch<React.SetStateAction<Item[]>>;
@@ -19,7 +19,7 @@ const ChosenItemChances = ({
   handleQuantityChange: (itemId: string, newQuantity: number) => void;
   computedPackPrice: number;
   setComputedPackPrice: React.Dispatch<React.SetStateAction<number>>;
-  commision: number;
+  commission: number;
 }) => {
   useEffect(() => {
     // Calculate expected value based on probabilities
@@ -32,13 +32,13 @@ const ChosenItemChances = ({
 
     // 546,941.85
 
-    // Add 10% commission please creators commision
-    const vig = 1.1 + commision / 100;
+    // Add 10% commission please creators commission
+    const vig = 1.1 + commission / 100;
 
     const packPrice = expectedValue * vig;
 
     setComputedPackPrice(packPrice);
-  }, [selectedItems, setComputedPackPrice, commision]);
+  }, [selectedItems, setComputedPackPrice, commission]);
 
   const remainingPercentage = 100 - totalQuantityOfItems;
   const progressBarColor = totalQuantityOfItems === 100 ? '#22c55e' : '#ef4444';

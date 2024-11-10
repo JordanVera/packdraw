@@ -10,5 +10,5 @@ export interface CreatePackData {
     quantity: number;
   }>;
   userId: string;
-  commision: number;
+  commission: number;
 }

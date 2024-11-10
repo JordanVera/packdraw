@@ -3,7 +3,7 @@ import ChooseItems from '@/components/create/ChooseItems';
 import ChosenItemChances from '@/components/create/ChosenItemChances';
 import { Item } from '@/types/Item';
 import NameYourPack from '@/components/create/NameYourPack';
-import SetCommision from '@/components/create/SetCommision';
+import SetCommission from '@/components/create/SetCommission';
 import ChoosePackImage from '@/components/create/ChoosePackImage';
 import PackService from '@/services/PackService';
 import { useUser } from '@/providers/UserProvider';
@@ -12,7 +12,7 @@ const CreatePack = () => {
   const [selectedItems, setSelectedItems] = useState<Item[]>([]);
   const [totalQuantityOfItems, setTotalQuantityOfItems] = useState(0);
   const [name, setName] = useState<string>('');
-  const [commision, setCommision] = useState<number>(0.5);
+  const [commission, setCommission] = useState<number>(0.5);
   const [computedPackPrice, setComputedPackPrice] = useState(0);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
@@ -63,7 +63,7 @@ const CreatePack = () => {
           quantity: item.quantity || 0,
         })),
         userId: user.id,
-        commission: commision,
+        commission: commission,
       });
     } catch (error) {
       console.error('Error creating pack:', error);
@@ -75,8 +75,8 @@ const CreatePack = () => {
   }, [name]);
 
   useEffect(() => {
-    console.log({ commision });
-  }, [commision]);
+    console.log({ commission });
+  }, [commission]);
 
   return (
     <div className="max-w-screen-xl mx-auto  flex flex-col gap-5">
@@ -97,7 +97,7 @@ const CreatePack = () => {
             handleQuantityChange={handleQuantityChange}
             computedPackPrice={computedPackPrice}
             setComputedPackPrice={setComputedPackPrice}
-            commision={commision}
+            commission={commission}
           />
         </div>
       </div>
@@ -107,7 +107,10 @@ const CreatePack = () => {
           <NameYourPack name={name} setName={setName} />
         </div>
         <div className="w-full flex md:w-1/2">
-          <SetCommision commision={commision} setCommision={setCommision} />
+          <SetCommission
+            commission={commission}
+            setCommission={setCommission}
+          />
         </div>
       </div>
 
