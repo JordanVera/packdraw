@@ -65,6 +65,9 @@ async function getAllPacks(req: NextApiRequest, res: NextApiResponse) {
           include: {
             item: true,
           },
+          orderBy: {
+            quantity: 'asc',
+          },
         },
       },
     });

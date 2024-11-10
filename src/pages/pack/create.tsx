@@ -98,13 +98,13 @@ const CreatePack = () => {
     }
   };
 
-  useEffect(() => {
-    console.log({ name });
-  }, [name]);
+  // useEffect(() => {
+  //   console.log({ name });
+  // }, [name]);
 
-  useEffect(() => {
-    console.log({ commission });
-  }, [commission]);
+  // useEffect(() => {
+  //   console.log({ commission });
+  // }, [commission]);
 
   return (
     <div className="max-w-screen-xl mx-auto  flex flex-col gap-5">
