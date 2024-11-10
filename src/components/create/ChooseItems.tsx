@@ -102,15 +102,24 @@ const ChooseItems = ({ selectedItems, handleSelectItem }) => {
 
       <div className="overflow-y-auto no-scrollbar">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-          {currentItems.map((item) => (
-            <ItemCard
-              key={item.id}
-              item={item}
-              selectedItems={selectedItems}
-              handleSelectItem={handleSelectItem}
-            />
-          ))}
+          {currentItems.length > 0 &&
+            currentItems.map((item) => (
+              <ItemCard
+                key={item.id}
+                item={item}
+                selectedItems={selectedItems}
+                handleSelectItem={handleSelectItem}
+              />
+            ))}
         </div>
+
+        {currentItems.length === 0 && (
+          <div className="min-h-[320px] w-full bg-zinc-800 rounded-lg flex items-center justify-center">
+            <p className="text-zinc-500 text-center font-semibold">
+              We're sorry, no items match those filters 😔😔😔
+            </p>
+          </div>
+        )}
 
         <PaginationControls
           indexOfFirstItem={indexOfFirstItem}

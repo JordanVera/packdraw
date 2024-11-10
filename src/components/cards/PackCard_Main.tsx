@@ -27,9 +27,14 @@ export default function PackCard_Main({ pack }) {
           className="w-full max-w-[186px] card"
         />
       </Tilt>
-      <h4 className="text-xl font-semibold text-center">
-        ${formatNumberWithCommas(roundToTwoDecimals(pack.price))}
-      </h4>
+      <div className="gap-2 flex flex-col">
+        <h2 className="text-xl text-white font-semibold text-center">
+          {pack.name}
+        </h2>
+        <h4 className="text-sm text-center">
+          ${formatNumberWithCommas(roundToTwoDecimals(pack.price))}
+        </h4>
+      </div>
     </Link>
   );
 }

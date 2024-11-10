@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const { data: session } = useSession();
   return (
-    <header className="flex justify-between items-center max-w-screen-xl mx-auto py-5">
+    <header className="flex justify-between items-center max-w-screen-xl mx-auto p-5">
       <div className="flex items-center gap-5">
         {/* <img src="/logo.svg" alt="logo" /> */}
 

@@ -18,6 +18,8 @@ const CreatePack = () => {
   const [computedPackPrice, setComputedPackPrice] = useState(0);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
+  const [disabledCreateButton, setDisabledCreateButton] = useState(true);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectItem = (item: Item) => {
@@ -47,6 +49,12 @@ const CreatePack = () => {
     console.log({ totalQuantityOfItems });
   }, [totalQuantityOfItems]);
 
+  useEffect(() => {
+    setDisabledCreateButton(
+      totalQuantityOfItems !== 100 || selectedItems.length < 2
+    );
+  }, [totalQuantityOfItems, selectedItems]);
+
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
     setSelectedItems((prev) =>
       prev.map((item) =>
@@ -58,6 +66,12 @@ const CreatePack = () => {
   const handleCreatePack = async () => {
     try {
       setIsLoading(true);
+
+      if (name.length < 3 || name.length > 30) {
+        showErrorToast('Pack name must be between 3 and 30 characters');
+        return;
+      }
+
       const response = await PackService.createPack({
         name,
         description: 'yessss',
@@ -136,7 +150,7 @@ const CreatePack = () => {
       <button
         onClick={handleCreatePack}
         className="w-full py-5 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-700 transition-colors disabled:opacity-50"
-        disabled={isLoading}
+        disabled={isLoading || disabledCreateButton}
       >
         {isLoading ? 'Creating...' : 'Create Pack'}
       </button>

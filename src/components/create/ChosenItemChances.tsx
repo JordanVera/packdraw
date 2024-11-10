@@ -30,9 +30,7 @@ const ChosenItemChances = ({
       return total + item.price * probability;
     }, 0);
 
-    // 546,941.85
-
-    // Add 10% commission please creators commission
+    // Add 10% commission plus creators commission
     const vig = 1.1 + commission / 100;
 
     const packPrice = expectedValue * vig;

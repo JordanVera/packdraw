@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="max-w-screen-xl mx-auto py-5">{children}</div>
+      <div className="max-w-screen-xl mx-auto p-5">{children}</div>
       <LoginModal />
       <ToastContainer />
     </>
