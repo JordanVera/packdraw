@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
-import Link from 'next/link';
 import PacksPageNav from '@/components/nav/PacksPageNav';
 import { usePacks } from '@/providers/PackProvider';
 import PackCard_Main from '@/components/cards/PackCard_Main';

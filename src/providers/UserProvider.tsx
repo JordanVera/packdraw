@@ -8,13 +8,16 @@ import {
 import { useSession } from 'next-auth/react';
 import { User } from '@/types/User';
 import UserService from '@/services/UserService';
-
+import { Pack } from '@/types/Pack';
 // Define the shape of your context
 interface UserContextType {
   openLoginModal: boolean;
   handleOpenLoginModal: () => void;
   user: User | null;
   isLoading: boolean;
+  openPackItemsModal: boolean;
+  handleOpenPackItemsModal: (pack: Pack) => void;
+  openedPack: Pack | null;
 }
 
 // Add default context value
@@ -23,12 +26,22 @@ const UserContext = createContext<UserContextType>({
   handleOpenLoginModal: () => {},
   user: null,
   isLoading: false,
+  openPackItemsModal: false,
+  handleOpenPackItemsModal: () => {},
+  openedPack: null,
 });
 
 // Make sure to export the provider
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [openPackItemsModal, setOpenPackItemsModal] = useState(false);
+  const [openedPack, setOpenedPack] = useState(null);
   const handleOpenLoginModal = () => setOpenLoginModal((prev) => !prev);
+  const handleOpenPackItemsModal = (pack) => {
+    setOpenPackItemsModal((prev) => !prev);
+
+    setOpenedPack(pack);
+  };
 
   const { data: session, status } = useSession();
   const isLoading = status === 'loading';
@@ -42,13 +55,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (session?.user?.id) {
       UserService.getUserById(session.user.id).then((user) => {
-      console.log({ user });
+        console.log({ user });
         setUser(user);
       });
     } else {
       setUser(null);
     }
   }, [session?.user?.id]);
+
+  useEffect(() => {
+    console.log({ openedPack });
+  }, [openedPack]);
 
   return (
     <UserContext.Provider
@@ -57,6 +74,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         openLoginModal,
         user,
         isLoading,
+        handleOpenPackItemsModal,
+        openPackItemsModal,
+        openedPack,
       }}
     >
       {children}

@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { setItemRarity } from '../../utils/setItemRarity';
+import { PackItem } from '@/types/PackItem';
 
-const ItemCardMinimal = ({ packItem }) => {
+const ItemCardMinimal = ({ packItem }: { packItem: PackItem }) => {
+  console.log(setItemRarity(Number(packItem.quantity)));
+
+  
+
   return (
     <div
       key={packItem.item.id}
@@ -12,8 +17,9 @@ const ItemCardMinimal = ({ packItem }) => {
       </p>
       <div className="flex-grow flex items-center justify-center relative">
         {/* Added glow pseudo-element */}
+
         <div
-          className={`h-24 w-24 absolute left-7 top-2  rounded-full bg-gradient-radial ${setItemRarity(
+          className={`h-24 w-24 absolute  left-7 top-2 rounded-full bg-gradient-radial ${setItemRarity(
             Number(packItem.quantity)
           )} to-transparent blur-xl`}
         />
