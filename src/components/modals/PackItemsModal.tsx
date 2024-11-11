@@ -2,13 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { useUser } from '@/providers/UserProvider';
 import ItemCardMinimal from '../cards/ItemCardMinimal';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-};
+import { setItemRarity } from '@/utils/setItemRarity';
 
 export default function PackItemsModal() {
   const { handleOpenPackItemsModal, openPackItemsModal, openedPack } =
@@ -28,7 +22,7 @@ export default function PackItemsModal() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3   gap-5">
             {openedPack?.items.map((item) => (
-              <ItemCardMinimal key={item.id} packItem={item} />
+              <ItemCardMinimal key={item.item.id} packItem={item} />
             ))}
           </div>
         </div>

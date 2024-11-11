@@ -35,9 +35,9 @@ const UserContext = createContext<UserContextType>({
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openPackItemsModal, setOpenPackItemsModal] = useState(false);
-  const [openedPack, setOpenedPack] = useState(null);
+  const [openedPack, setOpenedPack] = useState<Pack | null>(null);
   const handleOpenLoginModal = () => setOpenLoginModal((prev) => !prev);
-  const handleOpenPackItemsModal = (pack) => {
+  const handleOpenPackItemsModal = (pack: Pack) => {
     setOpenPackItemsModal((prev) => !prev);
 
     setOpenedPack(pack);

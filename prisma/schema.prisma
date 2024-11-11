@@ -36,6 +36,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   packs         Pack[]
+  balance       Decimal   @default(0) @db.Decimal(10, 2)
 
   @@map("users")
 }

@@ -13,9 +13,9 @@ const NewPacks = () => {
         <h2 className="text-xl font-bold">New Packs</h2>
         <Link
           href="/pack"
-          className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+          className="text-sm font-semibold px-3 py-2 rounded-md backdrop-blur-sm bg-white/10 hover:bg-white/20 transition-colors duration-200 ease-in-out"
         >
-          View All
+          View All Packs
         </Link>
       </div>
       <div className="flex flex-wrap gap-4">

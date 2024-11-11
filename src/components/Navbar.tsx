@@ -5,6 +5,10 @@ import { useUser } from '@/providers/UserProvider';
 import { Avatar } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
+import {
+  formatNumberWithCommas,
+  roundToTwoDecimals,
+} from '@/utils/formatNumbers';
 
 const Navbar = () => {
   const { user } = useUser();
@@ -12,7 +16,7 @@ const Navbar = () => {
 
   const { data: session } = useSession();
   return (
-    <header className="flex justify-between items-center max-w-screen-xl mx-auto p-5">
+    <nav className="flex justify-between items-center max-w-screen-xl mx-auto p-5">
       <div className="flex items-center gap-5">
         {/* <img src="/logo.svg" alt="logo" /> */}
 
@@ -30,7 +34,14 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
-        <Avatar src={user?.image} alt={user?.name} />
+        {user && (
+          <>
+            <p className="text-sm font-semibold">
+              ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
+            </p>
+            <Avatar src={user?.image} alt={user?.name} />
+          </>
+        )}
 
         {session ? (
           <button
@@ -48,7 +59,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
-    </header>
+    </nav>
   );
 };
 

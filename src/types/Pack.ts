@@ -13,4 +13,5 @@ export interface Pack {
   updatedAt: Date | string;
   userId: string;
   items: PackItem[];
+  balance: string;
 }
