@@ -9,7 +9,7 @@ const Pack = () => {
   const { allPacks } = usePacks();
 
   return (
-    <main className="max-w-screen-xl mx-auto m-5 flex gap-5">
+    <main className="max-w-screen-xl mx-auto  flex gap-5">
       <div className="flex flex-col gap-5 flex-1 items-stretch">
         <PacksPageNav
           isPacksOpen={isPacksOpen}

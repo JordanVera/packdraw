@@ -20,7 +20,7 @@
 
 body {
   color: var(--foreground);
-  background: url('/halloween-background.png') no-repeat center center fixed;
+  background: url('/christmas-background.webp') no-repeat center center fixed;
   background-size: cover;
   background-position: center;
   font-family: "Poppins", sans-serif;
