@@ -22,7 +22,7 @@ export default function PackItemsModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 text-gray-100 p-8 rounded-lg shadow-xl max-w-xl">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 text-gray-100 p-8 rounded-lg shadow-xl max-w-xl">
           <h2 className="font-bold text-lg text-center mb-5">
             {openedPack?.name} - ${openedPack?.price.toFixed(2)}
           </h2>

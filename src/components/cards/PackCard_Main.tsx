@@ -15,7 +15,7 @@ export default function PackCard_Main({ pack }: { pack: Pack }) {
     <Link
       key={pack.id}
       href={`/pack/${pack.id}`}
-      className="flex flex-col gap-5 relative"
+      className="flex flex-col gap-5 relative group"
     >
       <Tilt
         glareEnable={true}
@@ -29,7 +29,7 @@ export default function PackCard_Main({ pack }: { pack: Pack }) {
         <img
           src={`/images/packs/${pack.coverImage}`}
           alt={pack.name}
-          className="w-full max-w-[186px] card "
+          className="w-full max-w-[186px] card"
         />
       </Tilt>
 
@@ -39,7 +39,7 @@ export default function PackCard_Main({ pack }: { pack: Pack }) {
           e.preventDefault();
           handleOpenPackItemsModal(pack);
         }}
-        className="absolute top-2 right-2 bg-zinc-800 p-2 rounded-md hover:bg-zinc-600"
+        className="absolute top-2 right-2 bg-zinc-800 p-2 rounded-md hover:bg-zinc-600 opacity-0 group-hover:opacity-100 transition-opacity"
       >
         <EyeIcon className="w-4 h-4" />
       </button>
