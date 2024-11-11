@@ -1,25 +1,7 @@
 import { useState } from 'react';
+import { setItemRarity } from '../../utils/setItemRarity';
 
 const ItemCardMinimal = ({ packItem }) => {
-  const [bgColor, setBgColor] = useState('');
-
-  const setItemRarity = (quantity: number) => {
-    switch (true) {
-      case quantity >= 10:
-        return 'bg-zinc-400/30'; // Common: 10% or higher
-      case quantity >= 5:
-        return 'bg-emerald-500/30'; // Uncommon: 5-10%
-      case quantity >= 1:
-        return 'bg-purple-500/30'; // Rare: 2-5%
-      case quantity >= 0.1:
-        return 'bg-red-500/30'; // Epic: 0.1-2%
-      default:
-        return 'bg-yellow-500/30'; // Legendary: Less than 0.1%
-    }
-  };
-
-  console.log({ packItem });
-
   return (
     <div
       key={packItem.item.id}
@@ -38,7 +20,7 @@ const ItemCardMinimal = ({ packItem }) => {
         <img
           src={packItem.item.image}
           alt={packItem.item.name}
-          className="z-[9999] h-20 w-20 max-w-full max-h-full object-contain rounded-md relative"
+          className="z-[9999] h-20 w-20 max-w-full max-h-full object-contain rounded-md"
         />
       </div>
       <div>
