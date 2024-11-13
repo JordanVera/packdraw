@@ -9,25 +9,7 @@ import React, {
 import { useSpring, animated } from 'react-spring';
 import { setItemRarity } from '../utils/setItemRarity';
 import { Triangle } from 'lucide-react';
-
-interface Item {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-  description?: string;
-  brand?: string;
-}
-
-interface Pack {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  coverImage?: string;
-  items: { item: Item }[];
-}
-
+import { Pack, Item } from '../types';
 interface PackReelProps {
   pack: Pack;
   onOpen: (item: Item) => void;
@@ -166,8 +148,8 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
     }));
 
     return (
-      <div className="w-full max-w-screen-xl mx-auto bg-zinc-800 bg-opacity-50 p-6 rounded-lg shadow-lg">
-        <div ref={containerRef} className="relative overflow-hidden h-32 mb-4">
+      <div className="w-full max-w-screen-xl mx-auto bg-zinc-800 bg-opacity-50 py-3 rounded-lg shadow-lg">
+        <div ref={containerRef} className="relative overflow-hidden h-48 mb-4">
           <animated.div
             className="flex items-center gap-x-4 absolute left-0 top-0 bottom-0"
             style={{
@@ -200,7 +182,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
           />
           <Triangle
             fill="#fff"
-            className="w-4 h-4  absolute top-42 bottom-0 left-1/2 -translate-x-1/2"
+            className="w-4 h-4  absolute top-42 bottom-0 left-1/2 -translate-x-1/2 "
           />
 
           {/* UNCOMMENT THIS TO SEE THE WINNING ITEM BOX */}
@@ -211,18 +193,15 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
               transform: 'translateX(-50%)',
             }}
           /> */}
+          {winner && (
+            <div className="text-center mb-4 absolute top-32 left-1/2 -translate-x-1/2 bg-black/50 p-1 rounded-lg">
+              <h2 className="text-sm font-bold text-white">{winner.name}</h2>
+              <p className="text-xs text-yellow-400">
+                ${winner.price.toFixed(2)}
+              </p>
+            </div>
+          )}
         </div>
-        {winner && (
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-bold text-white">{winner.name}</h2>
-            <p className="text-xl text-yellow-400">
-              ${winner.price.toFixed(2)}
-            </p>
-            {winner.brand && (
-              <p className="text-sm text-gray-400">Brand: {winner.brand}</p>
-            )}
-          </div>
-        )}
       </div>
     );
   }
