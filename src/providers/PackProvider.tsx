@@ -1,4 +1,6 @@
 import PackService from '@/services/PackService';
+import { Pack } from '@/types/Pack';
+import { Item } from '@/types/Item';
 import React, {
   createContext,
   useState,
@@ -9,16 +11,18 @@ import React, {
 
 // Define the shape of your context
 interface PacksContextType {
-  allPacks: any[]; // Replace 'any' with a more specific type if you know the structure of your packs
-  allItems: any[]; // Replace 'any' with a more specific type if you know the structure of your items
+  allPacks: Pack[];
+  allItems: Item[];
+  setAllPacks: (packs: Pack[]) => void;
+  setAllItems: (items: Item[]) => void;
 }
 
 const PacksContext = createContext<PacksContextType | undefined>(undefined);
 export const PacksProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [allPacks, setAllPacks] = useState<any[]>([]); // Again, replace 'any' with a more specific type if possible
-  const [allItems, setAllItems] = useState<any[]>([]);
+  const [allPacks, setAllPacks] = useState<Pack[]>([]);
+  const [allItems, setAllItems] = useState<Item[]>([]);
 
   useEffect(() => {
     fetchAllPacks();

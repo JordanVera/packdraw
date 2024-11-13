@@ -49,10 +49,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log({ session: session?.user });
-  }, [session]);
-
-  useEffect(() => {
     if (session?.user?.id) {
       UserService.getUserById(session.user.id).then((user) => {
         console.log({ user });
@@ -63,9 +59,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [session?.user?.id]);
 
-  useEffect(() => {
-    console.log({ openedPack });
-  }, [openedPack]);
+  // useEffect(() => {
+  //   console.log({ openedPack });
+  // }, [openedPack]);
 
   return (
     <UserContext.Provider

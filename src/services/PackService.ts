@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { Item } from '@/types/Item';
+import { Pack } from '@/types/Pack';
 import { CreatePackData } from '@/types/CreatePackData';
-
-interface Pack {
-  id: string;
-  // Add other pack properties here
-}
 
 class PackService {
   private baseUrl: string;
@@ -17,6 +13,9 @@ class PackService {
   async getAllPacks(): Promise<Pack[]> {
     try {
       const response = await axios.get<Pack[]>(`${this.baseUrl}/packs`);
+
+      console.log('response.data', response.data);
+
       return response.data;
     } catch (error) {
       console.error('Error fetching all packs:', error);
@@ -50,7 +49,7 @@ class PackService {
         `${this.baseUrl}/packs`,
         packData
       );
-      
+
       return response.data;
     } catch (error) {
       console.error('Error creating pack:', error);

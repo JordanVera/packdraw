@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Modal from '@mui/material/Modal';
 import { useUser } from '@/providers/UserProvider';
 import ItemCardMinimal from '../cards/ItemCardMinimal';
-import { setItemRarity } from '@/utils/setItemRarity';
 
 export default function PackItemsModal() {
   const { handleOpenPackItemsModal, openPackItemsModal, openedPack } =
