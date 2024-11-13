@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { setItemRarity } from '../utils/setItemRarity';
+import { Triangle } from 'lucide-react';
 
 interface Item {
   id: string;
@@ -96,18 +97,20 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
       const initialSpins = 4 * totalItems;
 
       // Calculate the exact position needed to center the winning item
-      const spinDistance =
-        initialSpins * itemFullWidth + winningIndex * itemFullWidth;
-      const overshoot = itemFullWidth * 0.5;
+      const containerWidth = containerRef.current?.offsetWidth || 0;
+      const winningOffset =
+        initialSpins * itemFullWidth +
+        winningIndex * itemFullWidth -
+        (containerWidth / 2 - itemWidth / 2);
 
       api.start({
         from: { x: 0 },
         to: [
           {
-            x: -(spinDistance + overshoot),
+            x: -(winningOffset + itemFullWidth * 0.5),
             config: { duration: 4000, easing: easeInOutCubic },
           },
-          { x: -spinDistance, config: { duration: 1000, easing: easeOutBack } },
+          { x: -winningOffset, config: { duration: 800, easing: easeOutBack } },
         ],
         onRest: () => {
           setSpinning(false);
@@ -174,8 +177,9 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
           >
             {displayItems.map((packItem, index) => (
               <div
-                key={`${packItem.item.id}-${index}`}
-                className="flex-shrink-0 relative flex items-center justify-center w-24 h-24"
+                className={`flex-shrink-0 relative flex items-center justify-center w-24 h-24 ${
+                  winner?.id === packItem.item.id ? 'winning-item' : ''
+                }`}
               >
                 <div
                   className={`absolute top-5 left-4 rounded-full bg-gradient-radial z-[-1] ${setItemRarity(
@@ -190,13 +194,23 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
               </div>
             ))}
           </animated.div>
-          <div
+          <Triangle
+            fill="#fff"
+            className="w-4 h-4  absolute top-0 bottom-0 !rotate-180 left-1/2 -translate-x-1/2"
+          />
+          <Triangle
+            fill="#fff"
+            className="w-4 h-4  absolute top-42 bottom-0 left-1/2 -translate-x-1/2"
+          />
+
+          {/* UNCOMMENT THIS TO SEE THE WINNING ITEM BOX */}
+          {/* <div
             className="absolute top-0 bottom-0 border-4 border-yellow-400 pointer-events-none w-24"
             style={{
               left: '50%',
               transform: 'translateX(-50%)',
             }}
-          />
+          /> */}
         </div>
         {winner && (
           <div className="text-center mb-4">

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import prisma from '../../lib/prisma';
 import PackReel, { PackReelRef } from '../../components/PackReel';

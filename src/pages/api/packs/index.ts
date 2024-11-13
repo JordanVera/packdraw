@@ -26,7 +26,7 @@ async function createPack(req: NextApiRequest, res: NextApiResponse) {
       data: {
         name,
         description,
-        price,
+        price: Number(parseFloat(price).toFixed(2)),
         coverImage,
         commission,
         user: {

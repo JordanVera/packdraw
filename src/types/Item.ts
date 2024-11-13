@@ -5,7 +5,6 @@ export interface Item {
   price: number;
   image?: string;
   brand?: string;
-  quantity?: number;
   createdAt: Date;
   updatedAt: Date;
 }

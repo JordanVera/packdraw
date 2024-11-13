@@ -8,24 +8,22 @@ export default function PackItemsModal() {
     useUser();
 
   return (
-    <div>
-      <Modal
-        open={openPackItemsModal}
-        onClose={() => handleOpenPackItemsModal(openedPack)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 text-gray-100 p-8 rounded-lg shadow-xl max-w-xl">
-          <h2 className="font-bold text-lg text-center mb-5">
-            {openedPack?.name} - ${openedPack?.price.toFixed(2)}
-          </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3   gap-5">
-            {openedPack?.items.map((item) => (
-              <ItemCardMinimal key={item.item.id} packItem={item} />
-            ))}
-          </div>
+    <Modal
+      open={openPackItemsModal}
+      onClose={() => handleOpenPackItemsModal(openedPack)}
+    >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-900 text-gray-100 p-8 rounded-lg shadow-xl max-w-3xl">
+        <h2 className="font-bold text-lg text-center mb-5">
+          {openedPack?.name} - ${openedPack?.price.toFixed(2)}
+        </h2>
+        <div className="flex flex-wrap justify-center gap-5">
+          {openedPack?.items.map((item) => (
+            <div key={item.item.id} className="w-[160px] h-[160px]">
+              <ItemCardMinimal packItem={item} />
+            </div>
+          ))}
         </div>
-      </Modal>
-    </div>
+      </div>
+    </Modal>
   );
 }
