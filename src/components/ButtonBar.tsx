@@ -12,14 +12,14 @@ const ButtonBar = ({ pack, spinning, spinReel }: ButtonBarProps) => {
     <div className="flex justify-between items-center">
       <div className="flex gap-2 items-center">
         <button
-          onClick={() => spinReel(false)}
+          onClick={() => spinReel(true)}
           disabled={spinning}
           className="bg-blue-500 rounded-lg py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Open For ${pack.price}
         </button>
         <button
-          onClick={() => spinReel(true)}
+          onClick={() => spinReel(false)}
           disabled={spinning}
           className="bg-zinc-800 rounded-lg py-2 px-5 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >

@@ -6,10 +6,10 @@ import {
   useEffect,
 } from 'react';
 import { useSession } from 'next-auth/react';
-import { User } from '@/types/User';
 import UserService from '@/services/UserService';
+import { User } from '@/types/User';
 import { Pack } from '@/types/Pack';
-// Define the shape of your context
+
 interface UserContextType {
   openLoginModal: boolean;
   handleOpenLoginModal: () => void;
@@ -18,6 +18,8 @@ interface UserContextType {
   openPackItemsModal: boolean;
   handleOpenPackItemsModal: (pack: Pack) => void;
   openedPack: Pack | null;
+  openCartModal: boolean;
+  handleOpenCartModal: () => void;
 }
 
 // Add default context value
@@ -29,12 +31,15 @@ const UserContext = createContext<UserContextType>({
   openPackItemsModal: false,
   handleOpenPackItemsModal: () => {},
   openedPack: null,
+  openCartModal: false,
+  handleOpenCartModal: () => {},
 });
 
 // Make sure to export the provider
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openPackItemsModal, setOpenPackItemsModal] = useState(false);
+  const [openCartModal, setOpenCartModal] = useState(false);
   const [openedPack, setOpenedPack] = useState<Pack | null>(null);
   const handleOpenLoginModal = () => setOpenLoginModal((prev) => !prev);
   const handleOpenPackItemsModal = (pack: Pack) => {
@@ -42,7 +47,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     setOpenedPack(pack);
   };
-
+  const handleOpenCartModal = () => setOpenCartModal((prev) => !prev);
   const { data: session, status } = useSession();
   const isLoading = status === 'loading';
 
@@ -73,6 +78,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         handleOpenPackItemsModal,
         openPackItemsModal,
         openedPack,
+        handleOpenCartModal,
+        openCartModal,
       }}
     >
       {children}

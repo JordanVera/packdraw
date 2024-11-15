@@ -23,12 +23,24 @@ async function getUser(req: NextApiRequest, res: NextApiResponse, id: string) {
       where: { id },
       include: {
         accounts: true,
+        OpenPack: {
+          include: {
+            item: true,
+          },
+        },
       },
     });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.status(200).json(user);
+
+    // Transform the balance from string to number
+    const transformedUser = {
+      ...user,
+      balance: Number(user.balance),
+    };
+
+    res.status(200).json(transformedUser);
   } catch (error) {
     console.error('Error fetching user:', error);
     res.status(400).json({ error: 'Error fetching user' });

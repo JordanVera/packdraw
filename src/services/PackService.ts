@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Item } from '@/types/Item';
 import { Pack } from '@/types/Pack';
 import { CreatePackData } from '@/types/CreatePackData';
+import { OpenPack } from '@/types/OpenPack';
 
 class PackService {
   private baseUrl: string;
@@ -14,7 +15,7 @@ class PackService {
     try {
       const response = await axios.get<Pack[]>(`${this.baseUrl}/packs`);
 
-      console.log('response.data', response.data);
+      // console.log('response.data', response.data);
 
       return response.data;
     } catch (error) {
@@ -53,6 +54,27 @@ class PackService {
       return response.data;
     } catch (error) {
       console.error('Error creating pack:', error);
+      throw error;
+    }
+  }
+
+  async openPack(
+    packId: string,
+    winningItemId: string,
+    isRealMoney: boolean
+  ): Promise<OpenPack> {
+    try {
+      const response = await axios.post<OpenPack>(
+        `${this.baseUrl}/packs/open/${packId}`,
+        {
+          packId,
+          winningItemId,
+          isRealMoney,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error opening pack:', error);
       throw error;
     }
   }

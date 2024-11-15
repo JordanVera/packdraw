@@ -12,7 +12,7 @@ import {
 
 const Navbar = () => {
   const { user } = useUser();
-  const { handleOpenLoginModal } = useUser();
+  const { handleOpenLoginModal, handleOpenCartModal } = useUser();
 
   const { data: session } = useSession();
   return (
@@ -36,6 +36,12 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         {user && (
           <>
+            <button
+              onClick={handleOpenCartModal}
+              className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600 capitalize"
+            >
+              cart
+            </button>
             <p className="text-sm font-semibold">
               ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
             </p>

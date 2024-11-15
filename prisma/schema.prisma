@@ -28,15 +28,16 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
   packs         Pack[]
-  balance       Decimal   @default(0) @db.Decimal(10, 2)
+  balance       Decimal    @default(0) @db.Decimal(10, 2)
+  OpenPack      OpenPack[]
 
   @@map("users")
 }
@@ -71,6 +72,7 @@ model Pack {
   updatedAt   DateTime   @updatedAt
   userId      String
   user        User       @relation(fields: [userId], references: [id])
+  OpenPack    OpenPack[]
 }
 
 model Item {
@@ -84,6 +86,7 @@ model Item {
   packs       PackItem[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  OpenPack    OpenPack[]
 }
 
 model PackItem {
@@ -94,4 +97,18 @@ model PackItem {
   quantity Decimal @default(1) @db.Decimal(10, 4)
 
   @@id([packId, itemId])
+}
+
+model OpenPack {
+  id            String   @id @default(cuid())
+  isRealMoney   Boolean  @default(false)
+  isRedeemed    Boolean  @default(false)
+  packId        String
+  pack          Pack     @relation(fields: [packId], references: [id])
+  winningItemId String
+  item          Item     @relation(fields: [winningItemId], references: [id])
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

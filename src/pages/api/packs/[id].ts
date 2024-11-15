@@ -63,7 +63,9 @@ async function updatePack(
     const currentItemIds = currentPack.items.map((pi) => pi.itemId);
     const newItemIds = items.map((item: any) => item.id);
 
-    const itemsToAdd = newItemIds.filter((id) => !currentItemIds.includes(id));
+    const itemsToAdd = newItemIds.filter(
+      (id: string) => !currentItemIds.includes(id)
+    );
     const itemsToRemove = currentItemIds.filter(
       (id) => !newItemIds.includes(id)
     );

@@ -38,7 +38,7 @@ const ItemCardMinimal = ({ packItem }: { packItem: PackItem }) => {
         <img
           src={packItem.item.image}
           alt={packItem.item.name}
-          className="z-[9999] h-20 w-20 max-w-full max-h-full object-contain rounded-md"
+          className="z-20 h-20 w-20 max-w-full max-h-full object-contain rounded-md"
         />
       </div>
       <div>

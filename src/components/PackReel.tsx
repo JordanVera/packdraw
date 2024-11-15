@@ -9,7 +9,11 @@ import React, {
 import { useSpring, animated } from 'react-spring';
 import { setItemRarity } from '../utils/setItemRarity';
 import { Triangle } from 'lucide-react';
-import { Pack, Item } from '../types';
+import PackService from '@/services/PackService';
+import { OpenPack } from '@/types/OpenPack';
+import { Pack } from '@/types/Pack';
+import { Item } from '@/types/Item';
+
 interface PackReelProps {
   pack: Pack;
   onOpen: (item: Item) => void;
@@ -63,7 +67,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
       return items[items.length - 1].item;
     }, [pack.items]);
 
-    const spinReel = (demo: boolean = false) => {
+    const spinReel = async (isRealMoney: boolean = false) => {
       if (spinning) return;
 
       setSpinning(true);
@@ -85,6 +89,12 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
         winningIndex * itemFullWidth -
         (containerWidth / 2 - itemWidth / 2);
 
+      try {
+        await PackService.openPack(pack.id, winningItem.id, isRealMoney);
+      } catch (error) {
+        console.error('Error opening pack:', error);
+      }
+
       api.start({
         from: { x: 0 },
         to: [
@@ -97,7 +107,8 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
         onRest: () => {
           setSpinning(false);
           setWinner(winningItem);
-          if (!demo) onOpen(winningItem);
+
+          if (!isRealMoney) onOpen(winningItem);
         },
       });
     };

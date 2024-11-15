@@ -4,13 +4,15 @@ import prisma from '../../lib/prisma';
 import PackReel, { PackReelRef } from '../../components/PackReel';
 import ButtonBar from '@/components/ButtonBar';
 import ItemCardMinimal from '@/components/cards/ItemCardMinimal';
+import { Pack } from '@/types/Pack';
 
 interface PackPageProps {
-  pack: any; // Use the Pack interface from PackReel
+  pack: Pack;
 }
 
 export default function PackPage({ pack }: PackPageProps) {
   const [spinning, setSpinning] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
   const reelRef = useRef<PackReelRef>(null);
 
   const handleOpen = (item: any) => {
@@ -18,9 +20,9 @@ export default function PackPage({ pack }: PackPageProps) {
     console.log('Opened item:', item);
   };
 
-  const handleSpin = () => {
+  const handleSpin = (isRealMoney: boolean) => {
     if (reelRef.current) {
-      reelRef.current.spinReel(false);
+      reelRef.current.spinReel(isRealMoney);
     }
   };
 
