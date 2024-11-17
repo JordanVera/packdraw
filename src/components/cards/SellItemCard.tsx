@@ -25,7 +25,7 @@ const SellItemCard = ({ packItem }: { packItem: PackItem }) => {
           ${packItem.item.price}
         </p>
 
-        <button className="bg-red-500 text-white px-2 py-1 rounded-md">
+        <button className="bg-red-500 text-white px-2 py-1 rounded-md w-full">
           sell
         </button>
       </div>
