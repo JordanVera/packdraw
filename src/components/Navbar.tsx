@@ -2,9 +2,10 @@ import React from 'react';
 import { PackageOpen, Swords, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
-import { Avatar } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
+import { Avatar, Menu, MenuItem } from '@mui/material';
+
 import {
   formatNumberWithCommas,
   roundToTwoDecimals,
@@ -13,6 +14,17 @@ import {
 const Navbar = () => {
   const { user } = useUser();
   const { handleOpenLoginModal, handleOpenCartModal } = useUser();
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const { data: session } = useSession();
   return (
@@ -34,36 +46,41 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
-        {user && (
-          <>
-            <button
-              onClick={handleOpenCartModal}
-              className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600 capitalize"
-            >
-              cart
-            </button>
-            <p className="text-sm font-semibold">
+        <>
+          <button
+            onClick={handleOpenCartModal}
+            className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
+          >
+            cart
+          </button>
+          <button
+            // onClick={handleOpenCartModal}
+            className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
+          >
+            Deposit
+          </button>
+          {/* <p className="text-sm font-semibold">
               ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
-            </p>
-            <Avatar src={user?.image} alt={user?.name} />
-          </>
-        )}
-
-        {session ? (
-          <button
-            onClick={() => signOut()}
-            className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
+            </p> */}
+          <Avatar
+            src={user?.image}
+            alt={user?.name}
+            onClick={handleClick}
+            sx={{ cursor: 'pointer' }}
+          />
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            onClick={handleClose}
           >
-            Logout
-          </button>
-        ) : (
-          <button
-            onClick={handleOpenLoginModal}
-            className="text-sm font-semibold px-3 py-1 rounded-md bg-blue-600"
-          >
-            Login
-          </button>
-        )}
+            {session ? (
+              <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+            ) : (
+              <MenuItem onClick={handleOpenLoginModal}>Login</MenuItem>
+            )}
+          </Menu>
+        </>
       </div>
     </nav>
   );
