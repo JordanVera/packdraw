@@ -32,7 +32,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const itemWidth = 96; // 24 * 4px (6rem = 96px)
     const [visibleItems, setVisibleItems] = useState(6);
-    const { refreshUser } = useUser();
+    const { updateUserBalance } = useUser();
 
     const [springProps, api] = useSpring(() => ({
       from: { x: 0 },
@@ -100,7 +100,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
 
         if (isRealMoney && response.status === 201) {
           console.log('refreshing user');
-          refreshUser();
+          updateUserBalance(response.data.user.balance);
         }
       } catch (error) {
         console.error('Error opening pack:', error);
