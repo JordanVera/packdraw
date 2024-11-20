@@ -8,7 +8,8 @@ import { formatNumberWithCommas } from '@/utils/formatNumbers';
 import PackService from '@/services/PackService';
 
 export default function CartModal() {
-  const { handleOpenCartModal, openCartModal, user } = useUser();
+  const { handleOpenCartModal, openCartModal, user, increaseUserBalance } =
+    useUser();
   const [filteredItems, setFilteredItems] = useState<OpenPack[]>([]);
   const [totalPriceInCart, setTotalPriceInCart] = useState(0);
 
@@ -38,8 +39,19 @@ export default function CartModal() {
 
   const handleSellAll = async () => {
     try {
+      // console.log('selling all items', filteredItems);
+
+      const totalPriceOfAllItems = filteredItems.reduce((acc, op) => {
+        return acc + op.item.price;
+      }, 0);
+
+      console.log('totalPriceOfAllItems', totalPriceOfAllItems);
+
       const openPackIds = filteredItems.map((item) => item.id);
+
       await PackService.redeemCartItems(openPackIds);
+
+      increaseUserBalance(totalPriceOfAllItems);
       // Refresh user data through UserProvider
       // This assumes your UserProvider has a refresh method
       if (user?.refresh) {

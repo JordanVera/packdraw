@@ -9,6 +9,7 @@ interface SellItemCardProps {
 
 const SellItemCard = ({ packItem, onSellSuccess }: SellItemCardProps) => {
   const handleSell = async () => {
+    console.log('selling item', packItem);
     try {
       await PackService.redeemCartItems([packItem.id]);
       if (onSellSuccess) {

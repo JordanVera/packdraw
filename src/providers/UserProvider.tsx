@@ -22,6 +22,7 @@ interface UserContextType {
   handleOpenCartModal: () => void;
   refreshUser: () => void;
   updateUserBalance: (newBalance: number) => void;
+  increaseUserBalance: (amount: number) => void;
 }
 
 // Add default context value
@@ -37,6 +38,7 @@ const UserContext = createContext<UserContextType>({
   handleOpenCartModal: () => {},
   refreshUser: () => {},
   updateUserBalance: () => {},
+  increaseUserBalance: () => {},
 });
 
 // Make sure to export the provider
@@ -83,6 +85,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setUser((prev) => (prev ? { ...prev, balance: newBalance } : null));
   };
 
+  const increaseUserBalance = (amount: number) => {
+    setUser((prev) =>
+      prev ? { ...prev, balance: prev.balance + amount } : null
+    );
+  };
+
   // useEffect(() => {
   //   console.log({ openedPack });
   // }, [openedPack]);
@@ -101,6 +109,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         openCartModal,
         refreshUser,
         updateUserBalance,
+        increaseUserBalance,
       }}
     >
       {children}
