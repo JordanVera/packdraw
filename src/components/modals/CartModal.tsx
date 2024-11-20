@@ -49,13 +49,11 @@ export default function CartModal() {
 
       const openPackIds = filteredItems.map((item) => item.id);
 
-      await PackService.redeemCartItems(openPackIds);
+      const response = await PackService.redeemCartItems(openPackIds);
 
-      increaseUserBalance(totalPriceOfAllItems);
-      // Refresh user data through UserProvider
-      // This assumes your UserProvider has a refresh method
-      if (user?.refresh) {
-        user.refresh();
+      if (response.success) {
+        increaseUserBalance(totalPriceOfAllItems);
+        setFilteredItems([]);
       }
     } catch (error) {
       console.error('Error selling all items:', error);
