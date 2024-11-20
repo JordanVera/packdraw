@@ -13,6 +13,7 @@ import PackService from '@/services/PackService';
 import { OpenPack } from '@/types/OpenPack';
 import { Pack } from '@/types/Pack';
 import { Item } from '@/types/Item';
+import { useUser } from '@/providers/UserProvider';
 
 interface PackReelProps {
   pack: Pack;
@@ -31,6 +32,7 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const itemWidth = 96; // 24 * 4px (6rem = 96px)
     const [visibleItems, setVisibleItems] = useState(6);
+    const { refreshUser } = useUser();
 
     const [springProps, api] = useSpring(() => ({
       from: { x: 0 },
@@ -90,7 +92,16 @@ const PackReel = forwardRef<PackReelRef, PackReelProps>(
         (containerWidth / 2 - itemWidth / 2);
 
       try {
-        await PackService.openPack(pack.id, winningItem.id, isRealMoney);
+        const response = await PackService.openPack(
+          pack.id,
+          winningItem.id,
+          isRealMoney
+        );
+
+        if (isRealMoney && response.status === 201) {
+          console.log('refreshing user');
+          refreshUser();
+        }
       } catch (error) {
         console.error('Error opening pack:', error);
       }

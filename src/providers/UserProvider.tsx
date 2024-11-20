@@ -20,6 +20,7 @@ interface UserContextType {
   openedPack: Pack | null;
   openCartModal: boolean;
   handleOpenCartModal: () => void;
+  refreshUser: () => void;
 }
 
 // Add default context value
@@ -33,6 +34,7 @@ const UserContext = createContext<UserContextType>({
   openedPack: null,
   openCartModal: false,
   handleOpenCartModal: () => {},
+  refreshUser: () => {},
 });
 
 // Make sure to export the provider
@@ -64,6 +66,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [session?.user?.id]);
 
+  const refreshUser = async () => {
+    if (session?.user?.id) {
+      try {
+        const updatedUser = await UserService.getUserById(session.user.id);
+        setUser(updatedUser);
+      } catch (error) {
+        console.error('Error refreshing user data:', error);
+      }
+    }
+  };
+
   // useEffect(() => {
   //   console.log({ openedPack });
   // }, [openedPack]);
@@ -80,6 +93,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         openedPack,
         handleOpenCartModal,
         openCartModal,
+        refreshUser,
       }}
     >
       {children}

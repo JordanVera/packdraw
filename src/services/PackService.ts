@@ -62,7 +62,7 @@ class PackService {
     packId: string,
     winningItemId: string,
     isRealMoney: boolean
-  ): Promise<OpenPack> {
+  ): Promise<{ data: OpenPack; status: number }> {
     try {
       const response = await axios.post<OpenPack>(
         `${this.baseUrl}/packs/open/${packId}`,
@@ -72,7 +72,10 @@ class PackService {
           isRealMoney,
         }
       );
-      return response.data;
+      return {
+        data: response.data,
+        status: response.status,
+      };
     } catch (error) {
       console.error('Error opening pack:', error);
       throw error;
