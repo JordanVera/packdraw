@@ -18,9 +18,7 @@ export default async function handler(
 }
 
 async function openPack(req: NextApiRequest, res: NextApiResponse, id: string) {
-  // TODO: Implement the logic to open the pack
   try {
-    // Get the authenticated user
     const session = await getServerSession(req, res, authOptions);
     if (!session?.user?.id) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -33,34 +31,63 @@ async function openPack(req: NextApiRequest, res: NextApiResponse, id: string) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    // Verify that the pack and item exist
-    const [pack, item] = await Promise.all([
-      prisma.pack.findUnique({ where: { id: packId } }),
-      prisma.item.findUnique({ where: { id: winningItemId } }),
-    ]);
+    // Use a transaction to handle balance deduction and pack opening atomically
+    const result = await prisma.$transaction(async (tx) => {
+      // Get the pack, item, and user data
+      const [pack, item, user] = await Promise.all([
+        tx.pack.findUnique({ where: { id: packId } }),
+        tx.item.findUnique({ where: { id: winningItemId } }),
+        tx.user.findUnique({ where: { id: session.user.id } }),
+      ]);
 
-    if (!pack || !item) {
-      return res.status(404).json({ error: 'Pack or Item not found' });
-    }
+      if (!pack || !item || !user) {
+        throw new Error('Pack, Item, or User not found');
+      }
 
-    // Create the OpenPack entry
-    const openPack = await prisma.openPack.create({
-      data: {
-        packId,
-        winningItemId,
-        userId: session.user.id,
-        isRealMoney,
-      },
-      include: {
-        pack: true,
-        item: true,
-        user: true,
-      },
+      // If it's a real money pack, check and update balance
+      if (isRealMoney) {
+        const currentBalance = Number(user.balance);
+        const packPrice = pack.price;
+
+        if (currentBalance < packPrice) {
+          throw new Error('Insufficient balance');
+        }
+
+        // Update user's balance
+        await tx.user.update({
+          where: { id: user.id },
+          data: {
+            balance: {
+              decrement: packPrice,
+            },
+          },
+        });
+      }
+
+      // Create the OpenPack entry
+      const openPack = await tx.openPack.create({
+        data: {
+          packId,
+          winningItemId,
+          userId: session.user.id,
+          isRealMoney,
+        },
+        include: {
+          pack: true,
+          item: true,
+          user: true,
+        },
+      });
+
+      return openPack;
     });
 
-    return res.status(201).json(openPack);
+    return res.status(201).json(result);
   } catch (error) {
     console.error('Error creating open pack:', error);
+    if (error instanceof Error && error.message === 'Insufficient balance') {
+      return res.status(400).json({ error: 'Insufficient balance' });
+    }
     return res.status(500).json({ error: 'Error creating open pack' });
   }
 }
