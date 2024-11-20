@@ -1,7 +1,24 @@
 // import { setItemRarity } from '@/utils/setItemRarity';
 import { PackItem } from '@/types/PackItem';
+import PackService from '@/services/PackService';
 
-const SellItemCard = ({ packItem }: { packItem: PackItem }) => {
+interface SellItemCardProps {
+  packItem: PackItem;
+  onSellSuccess?: () => void;
+}
+
+const SellItemCard = ({ packItem, onSellSuccess }: SellItemCardProps) => {
+  const handleSell = async () => {
+    try {
+      await PackService.redeemCartItems([packItem.id]);
+      if (onSellSuccess) {
+        onSellSuccess();
+      }
+    } catch (error) {
+      console.error('Error selling item:', error);
+    }
+  };
+
   return (
     <div
       key={packItem.item.id}
@@ -25,8 +42,11 @@ const SellItemCard = ({ packItem }: { packItem: PackItem }) => {
           ${packItem.item.price}
         </p>
 
-        <button className="bg-red-500 text-white px-2 py-1 rounded-md w-full">
-          sell
+        <button
+          onClick={handleSell}
+          className="bg-red-500 hover:bg-red-600 transition-colors text-white px-2 py-1 rounded-md w-full"
+        >
+          Sell
         </button>
       </div>
     </div>

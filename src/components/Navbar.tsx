@@ -46,41 +46,40 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
-        <>
-          <button
-            onClick={handleOpenCartModal}
-            className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
-          >
-            cart
-          </button>
-          <button
-            // onClick={handleOpenCartModal}
-            className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
-          >
-            Deposit
-          </button>
-          {/* <p className="text-sm font-semibold">
-              ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
-            </p> */}
-          <Avatar
-            src={user?.image}
-            alt={user?.name}
-            onClick={handleClick}
-            sx={{ cursor: 'pointer' }}
-          />
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            onClick={handleClose}
-          >
-            {session ? (
-              <MenuItem onClick={() => signOut()}>Logout</MenuItem>
-            ) : (
-              <MenuItem onClick={handleOpenLoginModal}>Login</MenuItem>
-            )}
-          </Menu>
-        </>
+        <p className="text-sm font-semibold">
+          ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
+        </p>
+        <button
+          onClick={handleOpenCartModal}
+          className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
+        >
+          cart
+        </button>
+        <button
+          // onClick={handleOpenCartModal}
+          className="text-sm font-semibold px-5 py-1.5 rounded-full bg-blue-600 capitalize"
+        >
+          Deposit
+        </button>
+
+        <Avatar
+          src={user?.image}
+          alt={user?.name}
+          onClick={handleClick}
+          sx={{ cursor: 'pointer' }}
+        />
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+        >
+          {session ? (
+            <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+          ) : (
+            <MenuItem onClick={handleOpenLoginModal}>Login</MenuItem>
+          )}
+        </Menu>
       </div>
     </nav>
   );

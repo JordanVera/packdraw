@@ -78,6 +78,21 @@ class PackService {
       throw error;
     }
   }
+
+  async redeemCartItems(openPackIds: string[]): Promise<{ success: boolean }> {
+    try {
+      const response = await axios.post<{ success: boolean }>(
+        `${this.baseUrl}/packs/redeem`,
+        {
+          openPackIds,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error redeeming cart items:', error);
+      throw error;
+    }
+  }
 }
 
 export default new PackService();
