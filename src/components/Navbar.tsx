@@ -5,6 +5,7 @@ import { useUser } from '@/providers/UserProvider';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 import { Avatar, Menu, MenuItem } from '@mui/material';
+import CountUp from 'react-countup';
 
 import {
   formatNumberWithCommas,
@@ -27,6 +28,18 @@ const Navbar = () => {
   };
 
   const { data: session } = useSession();
+
+  const [prevBalance, setPrevBalance] = React.useState(user?.balance || 0);
+
+  React.useEffect(() => {
+    if (user?.balance !== undefined) {
+      setPrevBalance(user?.balance);
+    }
+  }, [user?.balance]);
+
+  const isIncreasing = (user?.balance || 0) > prevBalance;
+  const isDecreasing = (user?.balance || 0) < prevBalance;
+
   return (
     <nav className="flex justify-between items-center max-w-screen-xl mx-auto p-5">
       <div className="flex items-center gap-5">
@@ -46,8 +59,19 @@ const Navbar = () => {
         </button>
       </div>
       <div className="flex items-center gap-2">
-        <p className="text-sm font-semibold">
-          ${formatNumberWithCommas(roundToTwoDecimals(user?.balance))}
+        <p
+          className={`text-sm font-semibold ${
+            isIncreasing ? 'text-green-500' : isDecreasing ? 'text-red-500' : ''
+          }`}
+        >
+          $
+          <CountUp
+            start={prevBalance}
+            end={user?.balance || 0}
+            decimals={2}
+            duration={10}
+            separator=","
+          />
         </p>
         <button
           onClick={handleOpenCartModal}
