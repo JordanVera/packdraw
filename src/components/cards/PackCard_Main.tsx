@@ -12,27 +12,28 @@ export default function PackCard_Main({ pack }: { pack: Pack }) {
   const { handleOpenPackItemsModal } = useUser();
 
   return (
-    <Link
-      key={pack.id}
-      href={`/pack/${pack.id}`}
-      className="flex flex-col gap-5 relative group"
-    >
-      <Tilt
-        glareEnable={true}
-        glareMaxOpacity={0.5}
-        glareColor="#ffffff"
-        glarePosition="all"
-        glareBorderRadius="20px"
-        tiltMaxAngleX={10}
-        tiltMaxAngleY={10}
+    <div className="flex flex-col gap-5 relative group">
+      <Link
+        key={pack.id}
+        href={`/pack/${pack.id}`}
+        className="flex flex-col gap-5 relative group"
       >
-        <img
-          src={`/images/packs/${pack.coverImage}`}
-          alt={pack.name}
-          className="w-full max-w-[186px] card"
-        />
-      </Tilt>
-
+        <Tilt
+          glareEnable={true}
+          glareMaxOpacity={0.5}
+          glareColor="#ffffff"
+          glarePosition="all"
+          glareBorderRadius="20px"
+          tiltMaxAngleX={10}
+          tiltMaxAngleY={10}
+        >
+          <img
+            src={`/images/packs/${pack.coverImage}`}
+            alt={pack.name}
+            className="w-full max-w-[186px] card"
+          />
+        </Tilt>
+      </Link>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -51,6 +52,6 @@ export default function PackCard_Main({ pack }: { pack: Pack }) {
           ${formatNumberWithCommas(roundToTwoDecimals(pack.price))}
         </h4>
       </div>
-    </Link>
+    </div>
   );
 }
