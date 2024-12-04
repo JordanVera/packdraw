@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { PackageOpen, Swords, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useUser } from '@/providers/UserProvider';
@@ -16,7 +16,7 @@ const Navbar = () => {
   const { user } = useUser();
   const { handleOpenLoginModal, handleOpenCartModal } = useUser();
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,16 +29,13 @@ const Navbar = () => {
 
   const { data: session } = useSession();
 
-  const [prevBalance, setPrevBalance] = React.useState(user?.balance || 0);
+  const [prevBalance, setPrevBalance] = useState(user?.balance || 0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (user?.balance !== undefined) {
       setPrevBalance(user?.balance);
     }
   }, [user?.balance]);
-
-  const isIncreasing = (user?.balance || 0) > prevBalance;
-  const isDecreasing = (user?.balance || 0) < prevBalance;
 
   return (
     <nav className="sticky top-0 z-50 mx-auto p-5 bg-black/40 rounded-b-lg backdrop-blur-sm">
@@ -60,23 +57,8 @@ const Navbar = () => {
           </button>
         </div>
         <div className="flex items-center gap-2">
-          <p
-            className={`text-sm font-semibold ${
-              isIncreasing
-                ? 'text-green-500'
-                : isDecreasing
-                ? 'text-red-500'
-                : ''
-            }`}
-          >
-            $
-            <CountUp
-              start={prevBalance}
-              end={user?.balance || 0}
-              decimals={2}
-              duration={10}
-              separator=","
-            />
+          <p className={`text-sm font-semibold `}>
+            ${formatNumberWithCommas(roundToTwoDecimals(user?.balance || 0))}
           </p>
           <button
             onClick={handleOpenCartModal}

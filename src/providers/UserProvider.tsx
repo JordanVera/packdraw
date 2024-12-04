@@ -9,6 +9,7 @@ import { useSession } from 'next-auth/react';
 import UserService from '@/services/UserService';
 import { User } from '@/types/User';
 import { Pack } from '@/types/Pack';
+import { OpenPack } from '@prisma/client';
 
 interface UserContextType {
   openLoginModal: boolean;
@@ -23,6 +24,10 @@ interface UserContextType {
   refreshUser: () => void;
   updateUserBalance: (newBalance: number) => void;
   increaseUserBalance: (amount: number) => void;
+  filteredItems: OpenPack[];
+  setFilteredItems: (items: OpenPack[]) => void;
+  totalPriceInCart: number;
+  setTotalPriceInCart: (price: number) => void;
 }
 
 // Add default context value
@@ -39,6 +44,10 @@ const UserContext = createContext<UserContextType>({
   refreshUser: () => {},
   updateUserBalance: () => {},
   increaseUserBalance: () => {},
+  filteredItems: [],
+  setFilteredItems: () => {},
+  totalPriceInCart: 0,
+  setTotalPriceInCart: () => {},
 });
 
 // Make sure to export the provider
@@ -47,6 +56,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [openPackItemsModal, setOpenPackItemsModal] = useState(false);
   const [openCartModal, setOpenCartModal] = useState(false);
   const [openedPack, setOpenedPack] = useState<Pack | null>(null);
+  const [filteredItems, setFilteredItems] = useState<OpenPack[]>([]);
+  const [totalPriceInCart, setTotalPriceInCart] = useState(0);
+
   const handleOpenLoginModal = () => setOpenLoginModal((prev) => !prev);
   const handleOpenPackItemsModal = (pack: Pack) => {
     setOpenPackItemsModal((prev) => !prev);
@@ -91,6 +103,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const filterPackItems = (items: OpenPack[]) => {
+    if (user?.OpenPack) {
+      const filteredItems = user.OpenPack.filter(
+        (op) => op.isRealMoney && !op.isRedeemed
+      );
+
+      console.log('filteredItems', filteredItems);
+
+      const totalPrice = filteredItems.reduce((acc, op) => {
+        return acc + op.item.price;
+      }, 0);
+
+      setTotalPriceInCart(totalPrice);
+
+      setFilteredItems(filteredItems);
+    }
+  };
+
+  useEffect(() => {
+    filterPackItems(user?.OpenPack);
+  }, [user?.OpenPack]);
+
   // useEffect(() => {
   //   console.log({ openedPack });
   // }, [openedPack]);
@@ -110,6 +144,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         refreshUser,
         updateUserBalance,
         increaseUserBalance,
+        filteredItems,
+        setFilteredItems,
+        totalPriceInCart,
+        setTotalPriceInCart,
       }}
     >
       {children}

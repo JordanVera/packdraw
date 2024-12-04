@@ -23,7 +23,7 @@ const SellItemCard = ({ packItem, onSellSuccess }: SellItemCardProps) => {
   return (
     <div
       key={packItem.item.id}
-      className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between max-h-52 max-w-52"
+      className="aspect-square bg-zinc-800 bg-opacity-50 rounded-lg shadow-md p-4 flex flex-col justify-between h-52 w-52"
     >
       <div className="flex-grow flex items-center justify-center relative">
         <div
